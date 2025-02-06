@@ -2,14 +2,14 @@ import React from 'react';
 
 const Topbar = () => {
     return (
-        <nav className="navbar navbar-expand bg-white shadow mb-4 topbar">
+        <nav className="navbar navbar-expand bg-white shadow mb-4 topbar"  style={{  minWidth: '86vw' }}>
             <div className="container-fluid">
                 <button className="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button">
                     <i className="fas fa-bars"></i>
                 </button>
                 <ul className="navbar-nav flex-nowrap ms-auto">
                     <li className="nav-item dropdown no-arrow">
-                        <a className="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+                        <a className="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="/UserDetails">
                             <span className="d-none d-lg-inline me-2 text-gray-600 small">Valerie Luna</span>
                             <img
                                 className="border rounded-circle img-profile"

@@ -22,7 +22,7 @@ const LoginPage = () => {
                                         <div
                                             className="flex-grow-1 bg-login-image"
                                             style={{
-                                                backgroundImage: 'url("/src/bootstrap/assets/img/dogs/image3.jpeg")',
+                                                backgroundImage: 'url("src/bootstrap/assets/img/dogs/image3.jpeg")',
                                                 backgroundSize: 'cover',
                                                 backgroundPosition: 'center',
                                             }}
