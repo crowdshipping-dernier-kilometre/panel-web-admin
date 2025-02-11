@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 
 const DataTable = ({ data, columns }) => {
     const [searchQuery, setSearchQuery] = useState('');
@@ -44,17 +45,15 @@ const DataTable = ({ data, columns }) => {
                         </tr>
                     ))}
                     </tbody>
-                    <tfoot>
-                    <tr>
-                        {columns.map((column, index) => (
-                            <th key={index}>{column}</th>
-                        ))}
-                    </tr>
-                    </tfoot>
                 </table>
             </div>
         </div>
     );
+};
+
+DataTable.propTypes = {
+    data: PropTypes.array.isRequired,
+    columns: PropTypes.array.isRequired,
 };
 
 export default DataTable;

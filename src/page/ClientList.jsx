@@ -1,20 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../components/Layout.jsx';
 import DataTable from '../components/DataTable.jsx';
+import axios from 'axios';
 
 const ClientList = () => {
-    const columns = ['Nom', 'Position', 'Statut des livraisons', 'Age', 'Start date', 'Salary'];
-    const data = [
-        {
-            Nom: 'Airi Satou',
-            Position: 'Accountant',
-            'Statut des livraisons': 'Tokyo',
-            Age: 33,
-            'Start date': '2008/11/28',
-            Salary: '$162,700'
-        },
-        // Add more data as needed
-    ];
+    const [data, setData] = useState([]);
+    const columns = ['Nom', 'Prenom', 'Adresse', 'Mail', 'DateInscription'];
+
+    useEffect(() => {
+        // Fetch data from the API
+        axios.get('https://newapi.example.com/clients')
+            .then(response => {
+                setData(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
 
     return (
         <Layout>
