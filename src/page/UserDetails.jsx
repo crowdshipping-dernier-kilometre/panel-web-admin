@@ -5,7 +5,6 @@ import Profile from "../components/Profile.jsx";
 const UserDetails= () => {
     return (
         <Layout>
-
             <Profile/>
         </Layout>
     );

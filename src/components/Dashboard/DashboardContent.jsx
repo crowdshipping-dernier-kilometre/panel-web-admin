@@ -1,6 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const DashboardContent = () => {
+    const [earningsData, setEarningsData] = useState([]);
+    const [packageStatusData, setPackageStatusData] = useState([]);
+    const [otherChartData, setOtherChartData] = useState([]); // Add more state variables as needed
+
+    useEffect(() => {
+        // Fetch earnings data
+        axios.get('https://newapi.example.com/earnings')
+            .then(response => {
+                setEarningsData(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching earnings data:', error);
+            });
+    }, []);
+
+    useEffect(() => {
+        // Fetch package status data
+        axios.get('https://newapi.example.com/package-status')
+            .then(response => {
+                setPackageStatusData(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching package status data:', error);
+            });
+    }, []);
+
+    useEffect(() => {
+        // Fetch other chart data
+        axios.get('https://newapi.example.com/other-chart')
+            .then(response => {
+                setOtherChartData(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching other chart data:', error);
+            });
+    }, []);
+
     return (
         <div className="container-fluid">
             <div className="d-sm-flex justify-content-between align-items-center mb-4">
@@ -46,7 +84,7 @@ const DashboardContent = () => {
                             <div className="row g-0 align-items-center">
                                 <div className="col me-2">
                                     <div className="text-uppercase text-info fw-bold text-xs mb-1">
-                                        <span>Livraison effecuté aujourd'hui</span>
+                                        <span>Livraison effecuté aujourdhui</span>
                                     </div>
                                     <div className="row g-0 align-items-center">
                                         <div className="col-auto">
@@ -102,7 +140,22 @@ const DashboardContent = () => {
                         </div>
                         <div className="card-body">
                             <div className="chart-area">
-                                <canvas data-bss-chart='{"type":"line","data":{"labels":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug"],"datasets":[{"label":"Earnings","fill":true,"data":["0","10000","5000","15000","10000","20000","15000","25000"],"backgroundColor":"rgba(78, 115, 223, 0.05)","borderColor":"rgba(78, 115, 223, 1)"}]},"options":{"maintainAspectRatio":false,"legend":{"display":false,"labels":{"fontStyle":"normal"}},"title":{"fontStyle":"normal"},"scales":{"xAxes":[{"gridLines":{"color":"rgb(234, 236, 244)","zeroLineColor":"rgb(234, 236, 244)","drawBorder":false,"drawTicks":false,"borderDash":["2"],"zeroLineBorderDash":["2"],"drawOnChartArea":false},"ticks":{"fontColor":"#858796","fontStyle":"normal","padding":20}}],"yAxes":[{"gridLines":{"color":"rgb(234, 236, 244)","zeroLineColor":"rgb(234, 236, 244)","drawBorder":false,"drawTicks":false,"borderDash":["2"],"zeroLineBorderDash":["2"]},"ticks":{"fontColor":"#858796","fontStyle":"normal","padding":20}}]}}}'></canvas>
+                                <canvas data-bss-chart={`{
+                                    "type":"line",
+                                    "data":{
+                                        "labels":["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug"],
+                                        "datasets":[{"label":"Earnings","fill":true,"data":${JSON.stringify(earningsData)},"backgroundColor":"rgba(78, 115, 223, 0.05)","borderColor":"rgba(78, 115, 223, 1)"}]
+                                    },
+                                    "options":{
+                                        "maintainAspectRatio":false,
+                                        "legend":{"display":false,"labels":{"fontStyle":"normal"}},
+                                        "title":{"fontStyle":"normal"},
+                                        "scales":{
+                                            "xAxes":[{"gridLines":{"color":"rgb(234, 236, 244)","zeroLineColor":"rgb(234, 236, 244)","drawBorder":false,"drawTicks":false,"borderDash":["2"],"zeroLineBorderDash":["2"],"drawOnChartArea":false},"ticks":{"fontColor":"#858796","fontStyle":"normal","padding":20}}],
+                                            "yAxes":[{"gridLines":{"color":"rgb(234, 236, 244)","zeroLineColor":"rgb(234, 236, 244)","drawBorder":false,"drawTicks":false,"borderDash":["2"],"zeroLineBorderDash":["2"]},"ticks":{"fontColor":"#858796","fontStyle":"normal","padding":20}}]
+                                        }
+                                    }
+                                }`}></canvas>
                             </div>
                         </div>
                     </div>
@@ -126,7 +179,18 @@ const DashboardContent = () => {
                         </div>
                         <div className="card-body">
                             <div className="chart-area">
-                                <canvas data-bss-chart='{"type":"doughnut","data":{"labels":["Direct","Social","Referral"],"datasets":[{"label":"","backgroundColor":["#4e73df","#1cc88a","#36b9cc"],"borderColor":["#ffffff","#ffffff","#ffffff"],"data":["50","30","15"]}]},"options":{"maintainAspectRatio":false,"legend":{"display":false,"labels":{"fontStyle":"normal"}},"title":{"fontStyle":"normal"}}}'></canvas>
+                                <canvas data-bss-chart={`{
+                                    "type":"doughnut",
+                                    "data":{
+                                        "labels":["Direct","Social","Referral"],
+                                        "datasets":[{"label":"","backgroundColor":["#4e73df","#1cc88a","#36b9cc"],"borderColor":["#ffffff","#ffffff","#ffffff"],"data":${JSON.stringify(packageStatusData)}}]
+                                    },
+                                    "options":{
+                                        "maintainAspectRatio":false,
+                                        "legend":{"display":false,"labels":{"fontStyle":"normal"}},
+                                        "title":{"fontStyle":"normal"}
+                                    }
+                                }`}></canvas>
                             </div>
                             <div className="text-center small mt-4">
                                 <span className="me-2"><i className="fas fa-circle text-primary"></i>&nbsp;livré</span>

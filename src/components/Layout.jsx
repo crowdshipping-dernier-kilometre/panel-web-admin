@@ -7,7 +7,7 @@ const Layout = ({ children }) => {
     return (
         <div id="wrapper">
             <Sidebar />
-            <div className="d-flex flex-column" id="content-wrapper" style={{ minWidth: '100vh' }}>
+            <div className="d-flex flex-column" id="content-wrapper" style={{ minWidth: '100vh' , minHeight: '100vh' }}>
                 <div id="content">
                     <Topbar />
                     <div className="container-fluid">

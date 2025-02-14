@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from '../components/Layout.jsx';
 
-import DashboardContent from '../components/DashboardContent.jsx';
+import DashboardContent from '../components/Dashboard/DashboardContent.jsx';
 
 const Dashboard = () => {
     return (

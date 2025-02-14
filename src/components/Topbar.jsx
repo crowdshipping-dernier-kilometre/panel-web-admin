@@ -11,11 +11,7 @@ const Topbar = () => {
                     <li className="nav-item dropdown no-arrow">
                         <a className="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="/UserDetails">
                             <span className="d-none d-lg-inline me-2 text-gray-600 small">Valerie Luna</span>
-                            <img
-                                className="border rounded-circle img-profile"
-                                src="assets/img/avatars/avatar1.jpeg"
-                                alt="User Avatar"
-                            />
+
                         </a>
                         <div className="dropdown-menu shadow dropdown-menu-end animated--grow-in">
                             <a className="dropdown-item" href="#">
