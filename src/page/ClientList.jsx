@@ -9,7 +9,7 @@ const ClientList = () => {
 
     useEffect(() => {
         // Fetch data from the API
-        axios.get('https://newapi.example.com/clients')
+        axios.get('http://localhost:8885/swagger-ui/index.html#/itinerary-controller')
             .then(response => {
                 setData(response.data);
             })

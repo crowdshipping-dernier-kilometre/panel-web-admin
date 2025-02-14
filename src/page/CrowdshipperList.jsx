@@ -8,7 +8,7 @@ const CrowdshipperList = () => {
 
     useEffect(() => {
         // Fetch data from the API
-        axios.get('https://newapi.example.com/Crowdshipper')
+        axios.get('http://localhost:8080/api/crowdshippers')
             .then(response => {
                 setData(response.data);
             })
