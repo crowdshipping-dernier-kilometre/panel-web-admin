@@ -1,12 +1,27 @@
 import React from 'react';
 import '../bootstrap/assets/bootstrap/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../components/AuthContext';
+import axios from 'axios';
 
 const LoginPage = () => {
     const navigate = useNavigate();
+    const { login } = useAuth();
 
-    const handleGoToRoot = () => {
-        navigate('/');
+    const handleLogin = async (event) => {
+        event.preventDefault();
+        const { username, password } = event.target.elements;
+
+        try {
+            const response = await axios.post('https://newapi.example.com/login', {
+                username: username.value,
+                password: password.value,
+            });
+            login(response.data.token);
+            navigate('/');
+        } catch (error) {
+            console.error('Login failed:', error);
+        }
     };
 
     return (
@@ -22,7 +37,7 @@ const LoginPage = () => {
                                         <div
                                             className="flex-grow-1 bg-login-image"
                                             style={{
-                                                backgroundImage: 'url("src/bootstrap/assets/img/dogs/image3.jpeg")',
+                                                backgroundImage: 'url("../src/bootstrap/assets/img/dogs/image3.jpeg")',
                                                 backgroundSize: 'cover',
                                                 backgroundPosition: 'center',
                                             }}
@@ -33,7 +48,7 @@ const LoginPage = () => {
                                             <div className="text-center">
                                                 <h4 className="text-dark mb-4">Bienvenue !</h4>
                                             </div>
-                                            <form className="user">
+                                            <form className="user" onSubmit={handleLogin}>
                                                 <div className="mb-3">
                                                     <input
                                                         className="form-control form-control-user"
@@ -66,7 +81,7 @@ const LoginPage = () => {
                                                     Demande de création de compte
                                                 </a>
                                             </div>
-                                            <button onClick={handleGoToRoot} className="btn btn-secondary mt-3">
+                                            <button onClick={() => navigate('/')} className="btn btn-secondary mt-3">
                                                 Retour à la racine
                                             </button>
                                         </div>

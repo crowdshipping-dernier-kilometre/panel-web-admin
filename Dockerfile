@@ -26,7 +26,7 @@ FROM nginx:alpine
 COPY --from=build-stage /app/dist /usr/share/nginx/html
 COPY --from=build-stage /app/src/bootstrap /usr/share/nginx/html/bootstrap
 COPY nginx.conf /etc/nginx/nginx.conf
-
+WORKDIR /usr/share/nginx/html
 # Expose port 80
 EXPOSE 80
 

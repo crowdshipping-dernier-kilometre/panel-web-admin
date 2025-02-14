@@ -13,26 +13,53 @@ import PointRelaisList from "./page/PointRelaisList.jsx";
 import Dashboard from "./page/Dashboard.jsx";
 import SimulationPage from "./page/SimulationPage.jsx";
 import UserDetails from "./page/UserDetails.jsx";
+import { AuthProvider } from './components/AuthContext';
+import PrivateRoute from "./components/PrivateRoute.jsx";
+
+// Version test site
 
 createRoot(document.getElementById('root')).render(
     <StrictMode>
-        <Router>
-            <Routes>
-                <Route path="/" element={<App />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/ClientList" element={<ClientList />} />
-                <Route path="/CrowdshipperList" element={<CrowdshipperList />} />
-                <Route path="/DeliveryList" element={<DeliveryList />} />
-                <Route path="/Register" element={<Register />} />
-                <Route path="/PointRelaisList" element={<PointRelaisList />} />
-                <Route path="/Dashboard" element={<Dashboard />} />
-                <Route path={'*'} element={<h1>404 Not Found</h1>} />
-                <Route path={'/SimulationPage'} element={<SimulationPage />} />
-                <Route path={'/UserDetails'} element={<UserDetails />} />
-
-
-
-            </Routes>
-        </Router>
+        <AuthProvider>
+            <Router>
+                <Routes>
+                    <Route path="/" element={<App />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/ClientList" element={<ClientList />} />
+                    <Route path="/CrowdshipperList" element={<CrowdshipperList />} />
+                    <Route path="/DeliveryList" element={<DeliveryList />} />
+                    <Route path="/Register" element={<Register />} />
+                    <Route path="/PointRelaisList" element={<PointRelaisList />} />
+                    <Route path="/Dashboard" element={<Dashboard />} />
+                    <Route path="*" element={<h1>404 Not Found</h1>} />
+                    <Route path="/SimulationPage" element={<SimulationPage />} />
+                    <Route path="/UserDetails" element={<UserDetails />} />
+                </Routes>
+            </Router>
+        </AuthProvider>
     </StrictMode>,
 );
+
+/*
+// version Authentiication reel
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <AuthProvider>
+            <Router>
+                <Routes>
+                    <Route path="/" element={<App />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/ClientList" element={<PrivateRoute component={ClientList} />} />
+                    <Route path="/CrowdshipperList" element={<PrivateRoute component={CrowdshipperList} />} />
+                    <Route path="/DeliveryList" element={<PrivateRoute component={DeliveryList} />} />
+                    <Route path="/Register" element={<Register />} />
+                    <Route path="/PointRelaisList" element={<PrivateRoute component={PointRelaisList} />} />
+                    <Route path="/Dashboard" element={<PrivateRoute component={Dashboard} />} />
+                    <Route path="*" element={<h1>404 Not Found</h1>} />
+                    <Route path="/SimulationPage" element={<PrivateRoute component={SimulationPage} />} />
+                    <Route path="/UserDetails" element={<PrivateRoute component={UserDetails} />} />
+                </Routes>
+            </Router>
+        </AuthProvider>
+    </StrictMode>,
+); */

@@ -1,41 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import LoginPage from './page/LoginPage';
+import CrowdshipperList from './page/CrowdshipperList';
+import DeliveryList from './page/DeliveryList';
+import { AuthProvider } from './components/AuthContext';
+import PrivateRoute from './components/PrivateRoute';
 
 const App = () => {
     return (
-        <div>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="/">Home</Link>
-                    </li>
-                    <li>
-                        <Link to="/login">Login</Link>
-                    </li>
-                    <li>
-                        <Link to="/ClientList">ClientList</Link>
-                    </li>
-                    <li>
-                        <Link to="/CrowdshipperList">CrowdshipperList</Link>
-                    </li>
-                    <li>
-                        <Link to="/DeliveryList">DeliveryList</Link>
-                    </li>
-                    <li>
-                        <Link to="/Rgister">Register</Link>
-                    </li>
-                    <li>
-                        <Link to="/DeliveryList">DeliveryList</Link>
-                    </li>
-                    <li>
-                        <Link to="/PointRelaisList">PointRelaisList</Link>
-                    </li>
-                    <li>
-                        <Link to="/Dashboard">Dashboard</Link>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+        <AuthProvider>
+            <Router>
+                <Routes>
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/CrowdshipperList" element={<PrivateRoute component={CrowdshipperList} />} />
+                    <Route path="/DeliveryList" element={<PrivateRoute component={DeliveryList} />} />
+                </Routes>
+            </Router>
+        </AuthProvider>
     );
 };
 
