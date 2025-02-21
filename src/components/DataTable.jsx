@@ -1,6 +1,13 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * DataTable component for displaying data in a table format with search.
+ *
+ * @param {Object[]} data - The data to be displayed in the table.
+ * @param {string[]} columns - The columns to be displayed in the table.
+ * @returns {JSX.Element} The rendered DataTable component.
+ */
 const DataTable = ({ data, columns }) => {
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -10,7 +17,7 @@ const DataTable = ({ data, columns }) => {
 
     const filteredData = data.filter((row) =>
         columns.some((column) =>
-            row[column].toString().toLowerCase().includes(searchQuery.toLowerCase())
+            row[column] && row[column].toString().toLowerCase().includes(searchQuery.toLowerCase())
         )
     );
 

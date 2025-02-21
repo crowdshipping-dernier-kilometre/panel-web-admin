@@ -8,13 +8,13 @@ import LoginPage from './page/LoginPage.jsx';
 import ClientList from "./page/ClientList.jsx";
 import CrowdshipperList from "./page/CrowdshipperList.jsx";
 import DeliveryList from "./page/DeliveryList.jsx";
-import Register from "./page/Register.jsx";
-import PointRelaisList from "./page/PointRelaisList.jsx";
+import RelayPointList from "./page/RelayPointList.jsx";
 import Dashboard from "./page/Dashboard.jsx";
 import SimulationPage from "./page/SimulationPage.jsx";
 import UserDetails from "./page/UserDetails.jsx";
 import { AuthProvider } from './components/AuthContext';
-import PrivateRoute from "./components/PrivateRoute.jsx";
+//import PrivateRoute from "./components/PrivateRoute.jsx";
+import AddRelayPoint from "./page/AddRelayPoint.jsx";
 
 // Version test site
 
@@ -28,12 +28,12 @@ createRoot(document.getElementById('root')).render(
                     <Route path="/ClientList" element={<ClientList />} />
                     <Route path="/CrowdshipperList" element={<CrowdshipperList />} />
                     <Route path="/DeliveryList" element={<DeliveryList />} />
-                    <Route path="/Register" element={<Register />} />
-                    <Route path="/PointRelaisList" element={<PointRelaisList />} />
+                    <Route path="/RelayPointList" element={<RelayPointList />} />
                     <Route path="/Dashboard" element={<Dashboard />} />
                     <Route path="*" element={<h1>404 Not Found</h1>} />
                     <Route path="/SimulationPage" element={<SimulationPage />} />
                     <Route path="/UserDetails" element={<UserDetails />} />
+                    <Route path="/AddRelayPoint" element={<AddRelayPoint />} />
                 </Routes>
             </Router>
         </AuthProvider>
@@ -53,7 +53,7 @@ createRoot(document.getElementById('root')).render(
                     <Route path="/CrowdshipperList" element={<PrivateRoute component={CrowdshipperList} />} />
                     <Route path="/DeliveryList" element={<PrivateRoute component={DeliveryList} />} />
                     <Route path="/Register" element={<Register />} />
-                    <Route path="/PointRelaisList" element={<PrivateRoute component={PointRelaisList} />} />
+                    <Route path="/RelayPointList" element={<PrivateRoute component={RelayPointList} />} />
                     <Route path="/Dashboard" element={<PrivateRoute component={Dashboard} />} />
                     <Route path="*" element={<h1>404 Not Found</h1>} />
                     <Route path="/SimulationPage" element={<PrivateRoute component={SimulationPage} />} />

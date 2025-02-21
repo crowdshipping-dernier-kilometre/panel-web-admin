@@ -1,8 +1,9 @@
-import React from 'react';
+import 'react';
 import Topbar from './Topbar';
 import Sidebar from './Sidebar';
 import Footer from './Footer';
 
+// eslint-disable-next-line react/prop-types
 const Layout = ({ children }) => {
     return (
         <div id="wrapper">

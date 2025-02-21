@@ -1,4 +1,4 @@
-import React from 'react';
+import 'react';
 import Layout from '../components/Layout.jsx';
 import Profile from "../components/Profile.jsx";
 

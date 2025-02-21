@@ -1,8 +1,10 @@
-import React from 'react';
+import 'react';
 import '../bootstrap/assets/bootstrap/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../components/AuthContext';
 import axios from 'axios';
+import config from '../config/config';
+import bcrypt from 'bcryptjs';
 
 const LoginPage = () => {
     const navigate = useNavigate();
@@ -13,12 +15,13 @@ const LoginPage = () => {
         const { username, password } = event.target.elements;
 
         try {
-            const response = await axios.post('https://newapi.example.com/login', {
+            const hashedPassword = await bcrypt.hash(password.value, 10);
+            const response = await axios.post(config.apiBaseUrl + '/login', {
                 username: username.value,
-                password: password.value,
+                password: hashedPassword,
             });
             login(response.data.token);
-            navigate('/');
+            navigate('/Dashboard');
         } catch (error) {
             console.error('Login failed:', error);
         }
@@ -37,7 +40,7 @@ const LoginPage = () => {
                                         <div
                                             className="flex-grow-1 bg-login-image"
                                             style={{
-                                                backgroundImage: 'url("../src/bootstrap/assets/img/dogs/image3.jpeg")',
+                                                backgroundImage: 'url("../src/bootstrap/assets/img/dogs/image2.jpeg")',
                                                 backgroundSize: 'cover',
                                                 backgroundPosition: 'center',
                                             }}
@@ -76,14 +79,6 @@ const LoginPage = () => {
                                                 </button>
                                             </form>
                                             <hr/>
-                                            <div className="text-center">
-                                                <a className="small" href="register.html">
-                                                    Demande de création de compte
-                                                </a>
-                                            </div>
-                                            <button onClick={() => navigate('/')} className="btn btn-secondary mt-3">
-                                                Retour à la racine
-                                            </button>
                                         </div>
                                     </div>
                                 </div>

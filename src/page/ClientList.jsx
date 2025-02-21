@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import Layout from '../components/Layout.jsx';
 import DataTable from '../components/DataTable.jsx';
 import axios from 'axios';
+import config from "../config/config.jsx";
 
 const ClientList = () => {
     const [data, setData] = useState([]);
@@ -9,7 +10,7 @@ const ClientList = () => {
 
     useEffect(() => {
         // Fetch data from the API
-        axios.get('http://localhost:8885/swagger-ui/index.html#/itinerary-controller')
+        axios.get(config.apiBaseUrl+'/clients')
             .then(response => {
                 setData(response.data);
             })

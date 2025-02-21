@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const DashboardContent = () => {
     const [earningsData, setEarningsData] = useState([]);
     const [packageStatusData, setPackageStatusData] = useState([]);
-    const [otherChartData, setOtherChartData] = useState([]); // Add more state variables as needed
+    const [, setOtherChartData] = useState([]); // Add more state variables as needed
 
     useEffect(() => {
         // Fetch earnings data
@@ -41,12 +41,6 @@ const DashboardContent = () => {
 
     return (
         <div className="container-fluid">
-            <div className="d-sm-flex justify-content-between align-items-center mb-4">
-                <h3 className="text-dark mb-0">Tableau de bord</h3>
-                <a className="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#">
-                    <i className="fas fa-download fa-sm text-white-50"></i>&nbsp;Generate Report
-                </a>
-            </div>
             <div className="row">
                 <div className="col-md-6 col-xl-3 mb-4">
                     <div className="card shadow border-left-primary py-2">
