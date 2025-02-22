@@ -12,10 +12,11 @@ const Sidebar = () => {
                 <ul className="navbar-nav text-light" id="accordionSidebar">
                     <li className="nav-item"><a className="nav-link" href="/Dashboard"><span>Panneau de contrôle</span></a></li>
                     <li className="nav-item"><a className="nav-link" href="/SimulationPage"><span>Simulation</span></a></li>
-                    <li className="nav-item"><a className="nav-link" href="/CrowdshipperList"><span>Crowdshippers</span></a></li>
-                    <li className="nav-item"><a className="nav-link " href="/ClientList"><span>Clients</span></a></li>
-                    <li className="nav-item"><a className="nav-link" href="/RelayPointList"><span>Point relais</span></a></li>
+                    <li className="nav-item"><a className="nav-link" href="/CrowdshipperList"><span>Liste des Crowdshippers</span></a></li>
+                    <li className="nav-item"><a className="nav-link " href="/ClientList"><span> Liste des clients</span></a></li>
+                    <li className="nav-item"><a className="nav-link" href="/RelayPointList"><span>Liste des point relais</span></a></li>
                     <li className="nav-item"><a className="nav-link" href="/DeliveryList"><span>Liste des livraisons</span></a></li>
+                    <li className="nav-item"><a className="nav-link" href="/TrucksList"><span>Liste des camions</span></a></li>
                     <li className="nav-item"><a className="nav-link" href="/Login"><span>Déconnexion</span></a></li>
                 </ul>
 
