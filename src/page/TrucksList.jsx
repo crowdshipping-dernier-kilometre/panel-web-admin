@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
 import Layout from '../components/Layout.jsx';
 import DataTable from '../components/DataTable.jsx';
 import axios from 'axios';
@@ -16,7 +16,7 @@ const TrucksList = () => {
                     ID: item.id,
                     'Volume Max': item.maxVolume,
                     'Distance Max': item.maxDistance,
-                    'Livraisons Associées': (
+                    'Livraisons Associees': (
                         <Link to={`/TruckDeliveries/${item.id}`}>
                             Voir les livraisons
                         </Link>
@@ -32,7 +32,7 @@ const TrucksList = () => {
     return (
         <Layout>
             <h3 className="text-dark mb-4">Camions</h3>
-            <a className="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="/AddTruck">
+            <a className="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="/src/page/AddTruck">
                 <i className="fas fa-download fa-sm text-white-50"></i>&nbsp;Ajouter un nouveau camion
             </a>
             <div className="card shadow">

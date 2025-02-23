@@ -1,4 +1,4 @@
-import React from 'react';
+import 'react';
 import Layout from '../components/Layout.jsx';
 import AjoutCamion from '../components/AjoutCamion.jsx';
 
