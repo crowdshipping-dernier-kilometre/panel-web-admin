@@ -1,24 +1,31 @@
-import 'react';
+import  { useState } from 'react';
 import '../bootstrap/assets/bootstrap/css/bootstrap.min.css';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../components/AuthContext';
 import axios from 'axios';
 import config from '../config/config';
-import bcrypt from 'bcryptjs';
 
 const LoginPage = () => {
     const navigate = useNavigate();
     const { login } = useAuth();
+    const [credentials, setCredentials] = useState({ username: '', password: '' });
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setCredentials({
+            ...credentials,
+            [name]: value
+        });
+    };
 
     const handleLogin = async (event) => {
         event.preventDefault();
-        const { username, password } = event.target.elements;
+        const { username, password } = credentials;
 
         try {
-            const hashedPassword = await bcrypt.hash(password.value, 10);
             const response = await axios.post(config.apiBaseUrl + '/login', {
-                username: username.value,
-                password: hashedPassword,
+                username,
+                password,
             });
             login(response.data.token);
             navigate('/Dashboard');
@@ -60,6 +67,8 @@ const LoginPage = () => {
                                                         aria-describedby="emailHelp"
                                                         name="username"
                                                         placeholder="Nom d'utilisateur"
+                                                        value={credentials.username}
+                                                        onChange={handleChange}
                                                     />
                                                 </div>
                                                 <div className="mb-3">
@@ -69,6 +78,8 @@ const LoginPage = () => {
                                                         id="exampleInputPassword"
                                                         placeholder="Mot de passe"
                                                         name="password"
+                                                        value={credentials.password}
+                                                        onChange={handleChange}
                                                     />
                                                 </div>
                                                 <button
