@@ -1,6 +1,6 @@
 
 const config = {
-    apiBaseUrl: 'http://localhost:8080/api'
+    apiBaseUrl: 'http://xn--connects-h1a.fr:8885/api'
 };
 
 export default config;
