@@ -1,65 +1,14 @@
-import { StrictMode } from 'react';
-import { createRoot } from 'react-dom/client';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import '../src/bootstrap/assets/bootstrap/css/bootstrap.min.css';
-import './index.css';
-import App from './App.jsx';
-import LoginPage from './page/LoginPage.jsx';
-import ClientList from "./page/ClientList.jsx";
-import CrowdshipperList from "./page/CrowdshipperList.jsx";
-import DeliveryList from "./page/DeliveryList.jsx";
-import Register from "./page/Register.jsx";
-import PointRelaisList from "./page/PointRelaisList.jsx";
-import Dashboard from "./page/Dashboard.jsx";
-import SimulationPage from "./page/SimulationPage.jsx";
-import UserDetails from "./page/UserDetails.jsx";
-import { AuthProvider } from './components/AuthContext';
-import PrivateRoute from "./components/PrivateRoute.jsx";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import "./index.css";
 
-// Version test site
+import { BrowserRouter } from "react-router-dom";
 
-createRoot(document.getElementById('root')).render(
-    <StrictMode>
-        <AuthProvider>
-            <Router>
-                <Routes>
-                    <Route path="/" element={<App />} />
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/ClientList" element={<ClientList />} />
-                    <Route path="/CrowdshipperList" element={<CrowdshipperList />} />
-                    <Route path="/DeliveryList" element={<DeliveryList />} />
-                    <Route path="/Register" element={<Register />} />
-                    <Route path="/PointRelaisList" element={<PointRelaisList />} />
-                    <Route path="/Dashboard" element={<Dashboard />} />
-                    <Route path="*" element={<h1>404 Not Found</h1>} />
-                    <Route path="/SimulationPage" element={<SimulationPage />} />
-                    <Route path="/UserDetails" element={<UserDetails />} />
-                </Routes>
-            </Router>
-        </AuthProvider>
-    </StrictMode>,
+ReactDOM.createRoot(document.getElementById("root")).render(
+	<React.StrictMode>
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>
+	</React.StrictMode>
 );
-
-/*
-// version Authentiication reel
-createRoot(document.getElementById('root')).render(
-    <StrictMode>
-        <AuthProvider>
-            <Router>
-                <Routes>
-                    <Route path="/" element={<App />} />
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/ClientList" element={<PrivateRoute component={ClientList} />} />
-                    <Route path="/CrowdshipperList" element={<PrivateRoute component={CrowdshipperList} />} />
-                    <Route path="/DeliveryList" element={<PrivateRoute component={DeliveryList} />} />
-                    <Route path="/Register" element={<Register />} />
-                    <Route path="/PointRelaisList" element={<PrivateRoute component={PointRelaisList} />} />
-                    <Route path="/Dashboard" element={<PrivateRoute component={Dashboard} />} />
-                    <Route path="*" element={<h1>404 Not Found</h1>} />
-                    <Route path="/SimulationPage" element={<PrivateRoute component={SimulationPage} />} />
-                    <Route path="/UserDetails" element={<PrivateRoute component={UserDetails} />} />
-                </Routes>
-            </Router>
-        </AuthProvider>
-    </StrictMode>,
-); */

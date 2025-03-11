@@ -1,8 +1,30 @@
-# React + Vite
+# 📊 Admin Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### 🎆 Aperçu (bientôt)
 
-Currently, two official plugins are available:
+🔴 [prod] https://last-mile.vercel.app/ (bientôt)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 🧰 Stack technique
+
+- React
+- Tailwind CSS
+- Marterial UI
+- React Toastify
+- Recharts
+- Framer Motion
+
+### ⚙️ Lancer localement
+
+⚠️ Ne pas oublier de mettre à jour l'`url` (`VITE_LAST_MILE_API_URL`) du backend au niveau des variables d'environnement `.env` si nécessaire. Il est possibible de mettre à jour la variable d'environnement `VITE_LAST_MILE_ADMIN_CONTACT_EMAIL` (pour le contact admin si ça doit changer),
+
+- Installer les dépendances
+
+```shell
+npm i
+```
+
+- Lancer l'app
+
+```shell
+npm run start
+```
