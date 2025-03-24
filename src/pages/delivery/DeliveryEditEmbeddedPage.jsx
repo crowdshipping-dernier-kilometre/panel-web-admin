@@ -16,9 +16,13 @@ const DeliveryEditEmbeddedPage = () => {
   const { deliveryService } = useContext(AppContext);
   // Default values
   const defaultValues = {
-    id: "",
-    name: "",
-    description: "",
+    idForSimulation: "",
+    crowdshipperId: "",
+    clientId: "",
+    packageId: "",
+    status: "",
+    createdAt: "",
+    updatedAt: "",
   };
 
   // States
@@ -99,7 +103,7 @@ const DeliveryEditEmbeddedPage = () => {
 
   return (
     <div className="flex-1 overflow-auto relative z-10">
-      <Header title={`Balises / ${deliveryId}`} />
+      <Header title={`Livraisons / ${deliveryId}`} />
 
       <main className="max-w-4xl mx-auto py-6 px-4 lg:px-8">
         <div className="flex justify-end mb-4 space-x-4">
@@ -113,12 +117,12 @@ const DeliveryEditEmbeddedPage = () => {
                 Modifier
               </Button>
 
-              <Link to="/nouvelle-balise">
+              <Link to="/nouvelle-livraison">
                 <Button
                   variant="text"
                   startIcon={<Add />}
                 >
-                  Créer une nouvelle balise
+                  Créer une nouvelle demande de livraison
                 </Button>
               </Link>
             </>
@@ -132,30 +136,49 @@ const DeliveryEditEmbeddedPage = () => {
           }}
         >
           <TextField
-            label="ID"
+            label="ID pour la simulation"
             variant="outlined"
             fullWidth
-            name="id"
-            value={values.id}
-            disabled
+            name="idForSimulation"
+            value={values.idForSimulation}
+            onChange={handleChange}
           />
           <TextField
-            label="Nom de la balise"
+            label="ID du crowdshipper"
             variant="outlined"
             fullWidth
-            name="name"
-            value={values.name}
+            name="crowdshipperId"
+            value={values.crowdshipperId}
+            multiline
             onChange={handleChange}
-            disabled={!isEditing}
           />
           <TextField
-            label="Description"
+            label="ID du client (destinataire)"
             variant="outlined"
             fullWidth
-            name="description"
-            value={values.description}
+            name="clientId"
+            value={values.clientId}
+            multiline
             onChange={handleChange}
-            disabled={!isEditing}
+          />
+          <TextField
+            label="ID du colis"
+            variant="outlined"
+            fullWidth
+            name="packageId"
+            value={values.packageId}
+            multiline
+            onChange={handleChange}
+          />
+
+          <TextField
+            label="Créé le"
+            variant="outlined"
+            fullWidth
+            name="createdAt"
+            value={values.createdAt}
+            multiline
+            onChange={handleChange}
           />
         </div>
 

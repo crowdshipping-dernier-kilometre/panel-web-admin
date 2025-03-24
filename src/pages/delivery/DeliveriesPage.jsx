@@ -3,7 +3,14 @@ import { motion } from "framer-motion";
 import Header from "../../components/common/Header";
 import StatCard from "../../components/common/StatCard";
 
-import { Loader, Loader2, Package, Shapes, Tags } from "lucide-react";
+import {
+  Loader,
+  Loader2,
+  Package,
+  PackageCheck,
+  Shapes,
+  Tags,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 import { Add } from "@mui/icons-material";
@@ -44,19 +51,26 @@ export default DeliveriesPage;
 
 export const DeliveryStats = ({ title }) => {
   const [deliveryStats, setTagStats] = useState({
-    totalTags: "...",
-    totalClasses: "...",
+    totalDeliveries: "...",
+    deliveriesInProgress: "...",
+    deliveriesCompleted: "...",
   });
   const { orientationCourseService } = useContext(AppContext);
 
   const getDeliveryStats = async () => {
-    const response = await orientationCourseService.getDeliveryStats();
-    if (response.error) {
-      console.error(response.message);
-      dispatchToast("error", response.message);
-    } else {
-      setTagStats(response.data);
-    }
+    // const response = await orientationCourseService.getDeliveryStats();
+    // if (response.error) {
+    //   console.error(response.message);
+    //   dispatchToast("error", response.message);
+    // } else {
+    //   setTagStats(response.data);
+    // }
+
+    setTagStats({
+      totalDeliveries: "3",
+      deliveriesInProgress: "0",
+      deliveriesCompleted: "0",
+    });
   };
 
   useEffect(() => {
@@ -85,20 +99,20 @@ export const DeliveryStats = ({ title }) => {
         <StatCard
           name="Total Livraisons"
           icon={Package}
-          value={deliveryStats.totalTags}
+          value={deliveryStats.totalDeliveries}
           color="#6366F1"
         />
         <StatCard
           name="En cours"
           icon={Loader}
-          value={deliveryStats.totalTags}
+          value={deliveryStats.deliveriesInProgress}
           color="#6366F1"
         />
 
         <StatCard
           name="Terminées"
-          icon={Shapes}
-          value={deliveryStats.totalClasses}
+          icon={PackageCheck}
+          value={deliveryStats.deliveriesCompleted}
           color="#10B981"
         />
       </motion.div>

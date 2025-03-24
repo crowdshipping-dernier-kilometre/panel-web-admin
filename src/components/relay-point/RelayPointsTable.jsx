@@ -67,7 +67,7 @@ const columns = [
           onClick={() => {
             console.log("id : " + id);
             console.log("row : " + JSON.stringify(row));
-            window.location.href = `/relayPoints/${id}`;
+            window.location.href = `/points-relais/${id}`;
           }}
         />,
       ];

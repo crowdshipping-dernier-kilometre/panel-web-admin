@@ -13,13 +13,13 @@ const TruckCreatePage = () => {
 
   // Default values
   const defaultValues = {
-    title: "",
-    description: "",
-    event: false,
-    imageFile: null, // Fichier brut
-    image: null, // URL pour le preview
-    imageByteArray: null,
-    imageBase64: null,
+    idForSimulation: "",
+    volumeMax: 0,
+    distanceMax: 0,
+    // imageFile: null, // Fichier brut
+    // image: null, // URL pour le preview
+    // imageByteArray: null,
+    // imageBase64: null,
   };
 
   // Function to convert a file to base64
@@ -101,23 +101,32 @@ const TruckCreatePage = () => {
           }}
         >
           <TextField
-            label="Titre"
+            label="ID pour la simulation"
             variant="outlined"
             fullWidth
-            name="title"
-            value={values.title}
+            name="idForSimulation"
+            value={values.idForSimulation}
             onChange={handleChange}
           />
           <TextField
-            label="Description"
+            label="Distance max (en km)"
             variant="outlined"
             fullWidth
-            name="description"
-            value={values.description}
+            name="distanceMax"
+            value={values.distanceMax}
             multiline
             onChange={handleChange}
           />
-          <div className="flex items-center justify-start mb-6">
+          <TextField
+            label="Volume max (en m3)"
+            variant="outlined"
+            fullWidth
+            name="distanceMax"
+            value={values.distanceMax}
+            multiline
+            onChange={handleChange}
+          />
+          {/* <div className="flex items-center justify-start mb-6">
             <Checkbox
               color="primary"
               name="event"
@@ -127,8 +136,8 @@ const TruckCreatePage = () => {
               }
             />
             <p className="text-white-600">C'est un evenement ?</p>
-          </div>
-          {values.image && (
+          </div> */}
+          {/* {values.image && (
             <div className="flex items-center mb-4">
               <img
                 src={values.image}
@@ -149,9 +158,9 @@ const TruckCreatePage = () => {
                 </Button>
               </div>
             </div>
-          )}
+          )} */}
 
-          <Button
+          {/* <Button
             variant="outlined"
             component="label"
           >
@@ -162,7 +171,7 @@ const TruckCreatePage = () => {
               onChange={handleChangeImage}
               accept="image/*"
             />
-          </Button>
+          </Button> */}
         </div>
 
         <ToastContainer />

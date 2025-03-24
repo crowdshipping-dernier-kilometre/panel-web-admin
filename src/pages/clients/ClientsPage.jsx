@@ -38,6 +38,7 @@ const ClientsPage = () => {
             <Button
               variant="text"
               startIcon={<Add />}
+              disabled
             >
               Créer une nouveau
             </Button>

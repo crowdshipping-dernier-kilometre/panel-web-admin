@@ -18,6 +18,9 @@ import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../services/context/AppContext";
 import { ToastContainer } from "react-toastify";
 import RelayPointsTable from "../../components/relay-point/RelayPointsTable";
+import { Button } from "@mui/material";
+import { Add } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 const RelayPointsPage = () => {
   return (
@@ -27,6 +30,18 @@ const RelayPointsPage = () => {
       <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
         {/* STATS */}
         <RelayPointStats />
+
+        <div className="flex justify-end mb-4 space-x-4">
+          <Link to="/nouveau-point-relais">
+            <Button
+              variant="text"
+              startIcon={<Add />}
+              disabled
+            >
+              Créer un nouveau
+            </Button>
+          </Link>
+        </div>
 
         <RelayPointsTable />
 
@@ -38,21 +53,25 @@ const RelayPointsPage = () => {
 export default RelayPointsPage;
 
 export const RelayPointStats = ({ title }) => {
-  const [postStats, setRelayPointStats] = useState({
+  const [relayPoints, setRelayPointStats] = useState({
     total: "...",
-    visible: "...",
-    invisible: "...",
+    lastSevenDays: "...",
   });
   const { postService } = useContext(AppContext);
 
   const getRelayPointStats = async () => {
-    const response = await postService.getRelayPointStats();
-    if (response.error) {
-      console.error(response.message);
-      dispatchToast("error", response.message);
-    } else {
-      setRelayPointStats(response.data);
-    }
+    // const response = await postService.getRelayPointStats();
+    // if (response.error) {
+    //   console.error(response.message);
+    //   dispatchToast("error", response.message);
+    // } else {
+    //   setRelayPointStats(response.data);
+    // }
+
+    setRelayPointStats({
+      total: "0",
+      lastSevenDays: "0",
+    });
   };
 
   useEffect(() => {
@@ -81,21 +100,21 @@ export const RelayPointStats = ({ title }) => {
         <StatCard
           name="Total Points Relais"
           icon={RefreshCcwDot}
-          value={postStats.total}
+          value={relayPoints.total}
           color="#6366F1"
         />
 
-        {/* <StatCard
-          name="Posts Visibles"
+        <StatCard
+          name="Les 7 derniers jours"
           icon={RefreshCcwDot}
-          value={postStats.visible}
+          value={relayPoints.lastSevenDays}
           color="#22C55E"
         />
 
-        <StatCard
+        {/* <StatCard
           name="Posts Invisibles (modérés)"
           icon={RefreshCcwDot}
-          value={postStats.invisible}
+          value={relayPoints.invisible}
           color="#EF4444"
         /> */}
       </motion.div>

@@ -163,7 +163,7 @@ function App() {
                 element={<TrucksPage />}
               />
               <Route
-                path="/camion/:truckId"
+                path="/camions/:truckId"
                 element={<TruckEditEmbeddedPage />}
               />
               <Route

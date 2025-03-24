@@ -31,7 +31,7 @@ const TrucksPage = () => {
         {/* <ProductsTable /> */}
 
         <div className="flex justify-end mb-4 space-x-4">
-          <Link to="/nouvelle-actualite">
+          <Link to="/nouveau-camion">
             <Button
               variant="text"
               startIcon={<Add />}
@@ -64,13 +64,18 @@ export const TruckStats = ({ title }) => {
   const { truckService } = useContext(AppContext);
 
   const getTruckStats = async () => {
-    const response = await truckService.getTruckStats();
-    if (response.error) {
-      console.error(response.message);
-      dispatchToast("error", response.message);
-    } else {
-      setTruckStats(response.data);
-    }
+    // const response = await truckService.getTruckStats();
+    // if (response.error) {
+    //   console.error(response.message);
+    //   dispatchToast("error", response.message);
+    // } else {
+    //   setTruckStats(response.data);
+    // }
+
+    setTruckStats({
+      total: "3",
+      publishedLastSevenDays: "0",
+    });
   };
 
   useEffect(() => {
@@ -103,12 +108,12 @@ export const TruckStats = ({ title }) => {
           color="#6366F1"
         />
 
-        {/* <StatCard
+        <StatCard
           name="Les 7 derniers jours"
-          icon={Newspaper}
+          icon={Truck}
           value={truckStats.publishedLastSevenDays}
           color="#10B981"
-        /> */}
+        />
       </motion.div>
     </>
   );

@@ -10,20 +10,18 @@ import { AppContext } from "../../services/context/AppContext";
 import { TIMEOUT_REFRESH } from "../../utils/constants";
 
 const CrowdshipperEditEmbeddedPage = () => {
-  const { userId } = useParams();
+  const { crowdshipperId } = useParams();
   const navigate = useNavigate();
 
   const { userService } = useContext(AppContext);
   // Default values
   const defaultValues = {
     id: "",
-    pseudo: "",
+    idForSimulation: "",
     firstName: "",
     name: "",
     email: "",
-    role: "",
-    nbPostDeleted: "",
-    banDate: "",
+    createdAt: "",
   };
 
   // States
@@ -48,7 +46,7 @@ const CrowdshipperEditEmbeddedPage = () => {
   // Fonction pour la suppression du user (exemple simple)
   const handleDelete = async () => {
     setIsLoading(true);
-    const response = await userService.deleteUserById(userId);
+    const response = await userService.deleteUserById(crowdshipperId);
     setIsLoading(false);
     if (response.error) {
       console.error(response.message);
@@ -65,7 +63,7 @@ const CrowdshipperEditEmbeddedPage = () => {
 
   const handleBan = async () => {
     setIsLoading(true);
-    const response = await userService.banUserById(userId);
+    const response = await userService.banUserById(crowdshipperId);
     setIsLoading(false);
     if (response.error) {
       console.error(response.message);
@@ -80,7 +78,7 @@ const CrowdshipperEditEmbeddedPage = () => {
 
   const handleUnban = async () => {
     setIsLoading(true);
-    const response = await userService.unbanUserById(userId);
+    const response = await userService.unbanUserById(crowdshipperId);
     setIsLoading(false);
     if (response.error) {
       console.error(response.message);
@@ -94,7 +92,7 @@ const CrowdshipperEditEmbeddedPage = () => {
   };
 
   const getUserById = async () => {
-    const response = await userService.getUserById(userId);
+    const response = await userService.getUserById(crowdshipperId);
     if (response.error) {
       console.error(response.message);
       dispatchToast("error", response.message);
@@ -137,20 +135,27 @@ const CrowdshipperEditEmbeddedPage = () => {
 
   return (
     <div className="flex-1 overflow-auto relative z-10">
-      <Header title={`Utilisateurs / ${userId}`} />
+      <Header title={`Crowdshippers / ${crowdshipperId}`} />
 
       <main className="max-w-4xl mx-auto py-6 px-4 lg:px-8">
         <div className="flex justify-end mb-4 space-x-4">
           {!isLoading && (
             <>
-              {/* <Link to="/nouveau-utilisateur">
+              <Button
+                variant="text"
+                startIcon={<Edit />}
+                onClick={() => setIsEditing(!isEditing)}
+              >
+                Modifier
+              </Button>
+              <Link to="/nouveau-crowdshipper">
                 <Button
                   variant="text"
                   startIcon={<Add />}
                 >
                   Créer un nouveau
                 </Button>
-              </Link> */}
+              </Link>
             </>
           )}
         </div>
@@ -167,6 +172,14 @@ const CrowdshipperEditEmbeddedPage = () => {
             fullWidth
             name="id"
             value={values.id}
+            disabled
+          />
+          <TextField
+            label="ID pour la simulation"
+            variant="outlined"
+            fullWidth
+            name="idForSimulation"
+            value={values.idForSimulation}
             disabled
           />
           <TextField
@@ -188,15 +201,6 @@ const CrowdshipperEditEmbeddedPage = () => {
             disabled
           />
           <TextField
-            label="Pseudo"
-            variant="outlined"
-            fullWidth
-            name="pseudo"
-            value={values.pseudo}
-            onChange={handleChange}
-            disabled
-          />
-          <TextField
             label="Email"
             variant="outlined"
             fullWidth
@@ -206,27 +210,19 @@ const CrowdshipperEditEmbeddedPage = () => {
             disabled
           />
           <TextField
-            label="Role"
+            label="Volume max (m3)"
             variant="outlined"
             fullWidth
-            name="role"
-            value={values.role}
+            name="volumeMax"
+            value={values.volumeMax}
             disabled
           />
           <TextField
-            label="Nombre de posts supprimés"
+            label="Créé le"
             variant="outlined"
             fullWidth
             name="createdAt"
-            value={values.nbPostDeleted}
-            disabled
-          />
-          <TextField
-            label="Date de bannissement"
-            variant="outlined"
-            fullWidth
-            name="banDate"
-            value={values.banDate}
+            value={values.createdAt}
             disabled
           />
         </div>
@@ -238,37 +234,6 @@ const CrowdshipperEditEmbeddedPage = () => {
             <CircularProgress />
           ) : (
             <>
-              <Button
-                variant="outlined"
-                onClick={handleResetPassword}
-                color="success"
-                startIcon={<LockOpen />}
-              >
-                Reinitialiser le mot de passe
-              </Button>
-
-              {/* Bouton Bannir */}
-
-              {values.banDate === "" ? (
-                <Button
-                  variant="outlined"
-                  onClick={handleBan}
-                  color="error"
-                  startIcon={<Block />}
-                >
-                  Bannir
-                </Button>
-              ) : (
-                <Button
-                  variant="outlined"
-                  onClick={handleUnban}
-                  color="success"
-                  startIcon={<Save />}
-                >
-                  D&eacute;bannir
-                </Button>
-              )}
-
               {/* Bouton Supprimer */}
               <Button
                 variant="outlined"

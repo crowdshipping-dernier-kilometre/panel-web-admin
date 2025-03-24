@@ -16,13 +16,14 @@ const TruckEditEmbeddedPage = () => {
   const { truckService } = useContext(AppContext);
   // Default values
   const defaultValues = {
-    id: "",
-    title: "",
-    description: "",
-    event: false,
-    // imageFile: null, // Fichier brut
-    image: null, // URL pour le preview or fichier brut
-    publicationDate: "",
+    idForSimulation: "",
+    distanceMax: 0,
+    volumeMax: 0,
+    createdAt: "15-06-2022",
+    // event: false,
+    // // imageFile: null, // Fichier brut
+    // image: null, // URL pour le preview or fichier brut
+    // publicationDate: "",
   };
 
   // States
@@ -124,32 +125,32 @@ const TruckEditEmbeddedPage = () => {
             </div>
           )}
           <TextField
-            label="ID"
+            label="ID pour la simulation"
             variant="outlined"
             fullWidth
             name="id"
-            value={values.id}
+            value={values.idForSimulation}
             disabled
           />
           <TextField
-            label="Titre"
+            label="Distance max (en km)"
             variant="outlined"
             fullWidth
-            name="title"
-            value={values.title}
+            name="distanceMax"
+            value={values.distanceMax}
             onChange={handleChange}
             disabled
           />
           <TextField
-            label="Description"
+            label="Volume max (en m3)"
             variant="outlined"
             fullWidth
-            name="description"
-            value={values.description}
+            name="volumeMax"
+            value={values.volumeMax}
             onChange={handleChange}
             disabled
           />
-          <div className="flex items-center justify-start mb-6">
+          {/* <div className="flex items-center justify-start mb-6">
             <Checkbox
               color="primary"
               name="event"
@@ -160,14 +161,14 @@ const TruckEditEmbeddedPage = () => {
               disabled
             />
             <p className="text-white-600">C'est un evenement ?</p>
-          </div>
+          </div> */}
 
           <TextField
             label="Publiée le"
             variant="outlined"
             fullWidth
-            name="publicationDate"
-            value={values.publicationDate}
+            name="createdAt"
+            value={values.createdAt}
             disabled
           />
         </div>

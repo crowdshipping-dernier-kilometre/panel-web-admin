@@ -13,8 +13,10 @@ const DeliveryCreatePage = () => {
 
   // Default values
   const defaultValues = {
-    name: "",
-    description: "",
+    idForSimulation: "",
+    crowdshipperId: "",
+    clientId: "",
+    packageId: "",
   };
 
   // States
@@ -50,7 +52,7 @@ const DeliveryCreatePage = () => {
 
   return (
     <div className="flex-1 overflow-auto relative z-10">
-      <Header title={`Nouvelle balise`} />
+      <Header title={`Nouvelle livraison`} />
 
       <main className="max-w-4xl mx-auto py-6 px-4 lg:px-8">
         <div
@@ -61,19 +63,37 @@ const DeliveryCreatePage = () => {
           }}
         >
           <TextField
-            label="Nom de la balise"
+            label="ID pour la simulation"
             variant="outlined"
             fullWidth
-            name="name"
-            value={values.name}
+            name="idForSimulation"
+            value={values.idForSimulation}
             onChange={handleChange}
           />
           <TextField
-            label="Description"
+            label="ID du crowdshipper"
             variant="outlined"
             fullWidth
-            name="description"
-            value={values.description}
+            name="crowdshipperId"
+            value={values.crowdshipperId}
+            multiline
+            onChange={handleChange}
+          />
+          <TextField
+            label="ID du client (destinataire)"
+            variant="outlined"
+            fullWidth
+            name="clientId"
+            value={values.clientId}
+            multiline
+            onChange={handleChange}
+          />
+          <TextField
+            label="ID du colis"
+            variant="outlined"
+            fullWidth
+            name="packageId"
+            value={values.packageId}
             multiline
             onChange={handleChange}
           />

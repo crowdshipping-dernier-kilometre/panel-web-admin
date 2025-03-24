@@ -54,7 +54,7 @@ const columns = [
           onClick={() => {
             console.log("id : " + id);
             console.log("row : " + JSON.stringify(row));
-            window.location.href = `/parcours-orientation/balises/${id}`;
+            window.location.href = `/livraisons/${id}`;
           }}
         />,
       ];
