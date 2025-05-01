@@ -3,12 +3,12 @@ import Cookies from 'js-cookie';
 import { mapUserModel } from '../../utils/mapping';
 
 export class AuthService {
-    apiUrl = import.meta.env.VITE_ETB_API_URL;
+    apiUrl = import.meta.env.VITE_LAST_MILE_API_URL;
 
     // CRUD operations
     async login(email, password, rememberMe) {
         try {
-            const response = await axios.post(`${this.apiUrl}/api/auth/login`, {
+            const response = await axios.post(`${this.apiUrl}/api/crowdshippers/login`, {
                 email: email,
                 password: password
             });

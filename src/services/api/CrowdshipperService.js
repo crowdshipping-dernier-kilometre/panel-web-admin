@@ -4,7 +4,7 @@ import { mapUserModel } from "../../utils/mapping";
 import Cookies from 'js-cookie';
 
 export class CrowdshipperService {
-    apiUrl = import.meta.env.VITE_ETB_API_URL;
+    apiUrl = import.meta.env.VITE_LAST_MILE_API_URL;
 
     // CRUD operations
     // async createUser(user) {

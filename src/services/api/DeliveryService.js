@@ -4,13 +4,12 @@ import Cookies from 'js-cookie';
 import { data } from "autoprefixer";
 
 export class DeliveryService {
-    apiUrl = import.meta.env.VITE_ETB_API_URL;
+    apiUrl = import.meta.env.VITE_LAST_MILE_API_URL;
 
 
     // CRUD operations
 
     // TAGS
-
     async getAllTags() {
         try {
             const response = await axios.get(`${this.apiUrl}/api/tags`,

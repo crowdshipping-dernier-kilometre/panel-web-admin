@@ -1,117 +1,89 @@
 import axios from "axios";
-import { mapCommunityModel, mapUserModel } from "../../utils/mapping";
 import Cookies from 'js-cookie';
+import { mapPostModel } from "../../utils/mapping";
 
 export class RelayPointService {
-    apiUrl = import.meta.env.VITE_ETB_API_URL;
+    apiUrl = import.meta.env.VITE_LAST_MILE_API_URL;
 
-    // CRUD operations
-    async getAllCommunities() {
+    async getAllRelayPoints() {
         try {
-            const response = await axios.get(`${this.apiUrl}/communities/all`, {
+            const response = await axios.get(`${this.apiUrl}/api/relayPoints`, {
                 headers: {
                     Authorization: `Bearer ${Cookies.get('token')}`,
                 }
             });
-            return { error: false, data: response.data?.length ? response.data.map(mapCommunityModel) : [] };
+            return { error: false, data: response.data.map(mapPostModel) };
         } catch (error) {
             return { error: true, message: error.message };
         }
     }
 
-    async getCommunityById(id) {
+    async getRelayPointById(id) {
         try {
-            const response = await axios.get(`${this.apiUrl}/communities/${id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${Cookies.get('token')}`,
-                    }
+            const response = await axios.get(`${this.apiUrl}/api/relayPoints/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get('token')}`,
                 }
-            );
-            return { error: false, data: mapCommunityModel(response.data) };
+            });
+            return { error: false, data: mapPostModel(response.data) };
         } catch (error) {
             return { error: true, message: error.message };
         }
     }
 
-    async createCommunity(community) {
+    async createRelayPoint(relayPoint) {
         try {
-            const response = await axios.post(`${this.apiUrl}/communities`, community,
-                {
-                    headers: {
-                        Authorization: `Bearer ${Cookies.get('token')}`,
-                    }
+            const response = await axios.post(`${this.apiUrl}/api/relayPoints`, relayPoint, {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get('token')}`,
                 }
-            );
+            });
+            return { error: false, data: mapPostModel(response.data) };
+        } catch (error) {
+            return { error: true, message: error.message };
+        }
+    }
+
+    async updateRelayPoint(id, relayPoint) {
+        try {
+            const response = await axios.put(`${this.apiUrl}/api/relayPoints/${id}`, relayPoint, {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get('token')}`,
+                }
+            });
+            return { error: false, data: mapPostModel(response.data) };
+        } catch (error) {
+            return { error: true, message: error.message };
+        }
+    }
+
+    async deleteRelayPoint(id) {
+        try {
+            const response = await axios.delete(`${this.apiUrl}/api/relayPoints/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${Cookies.get('token')}`,
+                }
+            });
             return { error: false, data: response.data };
         } catch (error) {
             return { error: true, message: error.message };
         }
     }
-
-    async updateCommunity(community) {
-        try {
-            const response = await axios.put(`${this.apiUrl}/communities`, community,
-                {
-                    headers: {
-                        Authorization: `Bearer ${Cookies.get('token')}`,
-                    }
-                }
-            );
-            return { error: false, data: response.data };
-        } catch (error) {
-            return { error: true, message: error.message };
-        }
-    }
-
-    async deleteCommunityById(id) {
-        try {
-            const response = await axios.delete(`${this.apiUrl}/communities/${id}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${Cookies.get('token')}`,
-                    }
-
-                });
-            return { error: false, data: response.data };
-        } catch (error) {
-            return { error: true, message: error.message };
-        }
-    }
-
-    async removePostFromCommunity(communityId, postId) {
-        try {
-            const response = await axios.delete(`${this.apiUrl}/communities/${communityId}/post/${postId}`,
-                {
-                    headers: {
-                        Authorization: `Bearer ${Cookies.get('token')}`,
-                    }
-                }
-            );
-            return { error: false, data: response.data };
-        } catch (error) {
-            return { error: true, message: error.message };
-        }
-    }
-
 
     // STATS
-    async getCommunityStats() {
-        const response = await this.getAllCommunities();
+    async getRelayPointStats() {
+        const response = await this.getAllRelayPoints();
         if (response.error) {
             return { error: true, message: response.message };
         }
-        const communities = response.data;
-        const communityStats = {
-            total: communities.length,
-            public: communities.filter((community) => community.isPublic).length,
-            private: communities.filter((community) => !community.isPublic).length,
+        const relayPoints = response.data;
+        const relayPointStats = {
+            total: relayPoints.length,
+            lastSevenDays: relayPoints.filter((relayPoint) =>
+                new Date(relayPoint.datePost).getTime() > new Date(Date.now() - (7 * 24 * 60 * 60 * 1000)).getTime()
+            ).length
         };
-        return { error: false, data: communityStats };
+        return { error: false, data: relayPointStats };
     }
-
-
-
-
-
 }
+

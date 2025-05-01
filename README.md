@@ -1,8 +1,8 @@
 # 📊 Admin Dashboard
 
-### 🎆 Aperçu (bientôt)
+### 🎆 Aperçu
 
-🔴 [prod] https://last-mile.vercel.app/ (bientôt)
+🔴 [prod] https://admin-last-mile-project.vercel.app/
 
 ### 🧰 Stack technique
 
