@@ -14,6 +14,37 @@ const OverviewPage = () => {
       <Header title="Aperçu" />
 
       <main className="max-w-7xl mx-auto py-6 px-4 lg:px-8">
+        <div
+          className="flex flex-wrap justify-center mb-8"
+          style={{ backgroundColor: "#fff" }}
+        >
+          <img
+            src="/images/insa-hdf-logo.webp"
+            alt="Overview"
+            width={300}
+          />
+          <img
+            src="/images/uphf-logo.webp"
+            alt="Overview"
+            width={300}
+          />
+          <img
+            src="/images/milex-logo.png"
+            alt="Overview"
+            width={300}
+          />
+          <img
+            src="/images/ecc-logo.png"
+            alt="Overview"
+            width={300}
+          />
+          <img
+            src="/images/tec-leg-logo.png"
+            alt="Overview"
+            width={300}
+          />
+        </div>
+
         {/* STATS */}
         <CrowdshipperStats title={"Crowdshippers"} />
 
