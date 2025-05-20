@@ -23,6 +23,7 @@ import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../services/context/AppContext";
 import { ToastContainer } from "react-toastify";
 import CommunitiesTable from "../../components/clients/ClientsTable";
+import ClientsTable from "../../components/clients/ClientsTable";
 
 const ClientsPage = () => {
   return (
@@ -38,14 +39,13 @@ const ClientsPage = () => {
             <Button
               variant="text"
               startIcon={<Add />}
-              disabled
             >
               Créer une nouveau
             </Button>
           </Link>
         </div>
 
-        <CommunitiesTable />
+        <ClientsTable />
 
         <ToastContainer />
       </main>

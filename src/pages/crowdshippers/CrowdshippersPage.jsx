@@ -34,9 +34,8 @@ const CrowdshippersPage = () => {
             <Button
               variant="text"
               startIcon={<Add />}
-              disabled
             >
-              Créer une nouvelle
+              Créer un nouveau
             </Button>
           </Link>
         </div>

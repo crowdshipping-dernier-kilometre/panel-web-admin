@@ -1,7 +1,15 @@
 import React, { useState, useContext, useEffect } from "react";
 import { TextField, Button } from "@mui/material";
 import Header from "../../components/common/Header";
-import { Add, Block, Delete, Edit, LockOpen, Save } from "@mui/icons-material";
+import {
+  Add,
+  Block,
+  Delete,
+  Edit,
+  HideImage,
+  LockOpen,
+  Save,
+} from "@mui/icons-material";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 import {
@@ -12,20 +20,21 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import { AppContext } from "../../services/context/AppContext";
 import { TIMEOUT_REFRESH } from "../../utils/constants";
+import { Eye, EyeOff } from "lucide-react";
 
-const ClientEditEmbeddedPage = () => {
-  const { clientId } = useParams();
+const RelayPointCreatePage = () => {
+  const { relayPointId } = useParams();
   const navigate = useNavigate();
 
-  const { clientService } = useContext(AppContext);
+  const { relayPointService } = useContext(AppContext);
+
   // Default values
   const defaultValues = {
-    id: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-    address: "",
-    createdAt: "",
+    name: "",
+    nbOpenHours: "",
+    volumeMax: "",
+    price: "",
+    adress: "",
   };
 
   // States
@@ -45,27 +54,41 @@ const ClientEditEmbeddedPage = () => {
   const handleReset = () => {
     setValues(defaultValues);
     setIsModified(false);
-    setCategory(null);
   };
 
-  useEffect(() => {}, []);
+  // Fonction pour la suppression du post (exemple simple)
+  const handleDelete = async () => {
+    setIsLoading(true);
+    const response = await relayPointService.deleteRelayPoint(relayPointId);
+    setIsLoading(false);
+    if (response.error) {
+      console.error(response.message);
+      dispatchToast("error", response.message);
+      return;
+    }
+    handleReset();
+    console.log("Suppression du point relais");
+    dispatchToast("success", "Point relais supprimé");
+    setTimeout(() => {
+      navigate("/points-relais");
+    }, TIMEOUT_REFRESH);
+  };
+
+  const getRelayPointById = async () => {};
+
+  useEffect(() => {
+    // getRelayPointById();
+  }, []);
 
   return (
     <div className="flex-1 overflow-auto relative z-10">
-      <Header title={`Clients / ${clientId}`} />
+      <Header title={`Nouveau Point relais`} />
 
       <main className="max-w-4xl mx-auto py-6 px-4 lg:px-8">
         <div className="flex justify-end mb-4 space-x-4">
-          {!isLoading && (
+          {/* {!isLoading && (
             <>
-              <Button
-                variant="text"
-                startIcon={<Edit />}
-                onClick={() => setIsEditing(!isEditing)}
-              >
-                Modifier
-              </Button>
-              <Link to="/nouveau-client">
+              <Link to="/nouveau-point-relais">
                 <Button
                   variant="text"
                   startIcon={<Add />}
@@ -74,7 +97,7 @@ const ClientEditEmbeddedPage = () => {
                 </Button>
               </Link>
             </>
-          )}
+          )} */}
         </div>
         <div
           className="grid grid-cols-1 gap-4 p-8"
@@ -83,53 +106,59 @@ const ClientEditEmbeddedPage = () => {
             borderRadius: "16px",
           }}
         >
-          <TextField
-            label="ID"
-            variant="outlined"
-            fullWidth
-            name="id"
-            value={values.id}
-            disabled
-          />
-          <TextField
-            label="Prénom"
-            variant="outlined"
-            fullWidth
-            name="firstName"
-            value={values.firstName}
-            onChange={handleChange}
-          />
+          {values.image && (
+            <div className="flex items-center justify-center mb-6">
+              {/* preview image base64 */}
+
+              <img
+                src={`data:image/png;base64,${values.image}`}
+                alt={values.title}
+                className="w-full h-full object-cover"
+                style={{ borderRadius: "16px" }}
+              />
+            </div>
+          )}
+
           <TextField
             label="Nom"
+            multiline
             variant="outlined"
             fullWidth
-            name="lastName"
-            value={values.lastName}
+            name="name"
+            value={values.name}
             onChange={handleChange}
           />
           <TextField
-            label="Email"
+            label="Nombre d'heures d'ouverture"
             variant="outlined"
             fullWidth
-            name="email"
-            value={values.email}
+            name="nbOpenHours"
+            value={values.nbOpenHours}
+            onChange={handleChange}
+          />
+          <TextField
+            label="Volume maximum"
+            variant="outlined"
+            fullWidth
+            name="volumeMax"
+            value={values.volumeMax}
+            onChange={handleChange}
+          />
+          <TextField
+            label="Prix"
+            variant="outlined"
+            fullWidth
+            name="price"
+            value={values.price}
             onChange={handleChange}
           />
           <TextField
             label="Adresse"
             variant="outlined"
             fullWidth
-            name="address"
-            value={values.address}
+            name="adress"
+            value={values.adress}
             onChange={handleChange}
-          />
-          <TextField
-            label="Créé le"
-            variant="outlined"
-            fullWidth
-            name="createdAt"
-            value={values.createdAt}
-            disabled
           />
         </div>
 
@@ -140,44 +169,21 @@ const ClientEditEmbeddedPage = () => {
             <CircularProgress />
           ) : (
             <>
-              {isModified && isEditing && (
-                <>
-                  <Button
-                    variant="outlined"
-                    onClick={handleReset}
-                    color="error"
-                    startIcon={<Block />}
-                  >
-                    Annuler
-                  </Button>
-                  <Button
-                    variant="outlined"
-                    onClick={() => {
-                      setIsEditing(false);
-                      setIsModified(false);
-                      toast.success("Modifications enregistrées");
-                    }}
-                    color="success"
-                    startIcon={<Save />}
-                  >
-                    Enregistrer
-                  </Button>
-                </>
-              )}
-              {/* Bouton Supprimer */}
               <Button
-                variant="outlined"
+                variant="contained"
+                disabled={
+                  !values.name ||
+                  !values.nbOpenHours ||
+                  !values.volumeMax ||
+                  !values.price ||
+                  !values.adress
+                }
+                startIcon={<Add />}
                 onClick={() => {
-                  toast.success("Client supprimé");
-                  setIsModified(false);
-                  setTimeout(() => {
-                    navigate("/clients");
-                  }, TIMEOUT_REFRESH);
+                  toast.success("Point relais créé");
                 }}
-                color="error"
-                startIcon={<Delete />}
               >
-                Supprimer
+                Créer
               </Button>
             </>
           )}
@@ -187,4 +193,4 @@ const ClientEditEmbeddedPage = () => {
   );
 };
 
-export default ClientEditEmbeddedPage;
+export default RelayPointCreatePage;

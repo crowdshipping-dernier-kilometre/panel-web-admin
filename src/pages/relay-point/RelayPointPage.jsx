@@ -36,7 +36,6 @@ const RelayPointsPage = () => {
             <Button
               variant="text"
               startIcon={<Add />}
-              disabled
             >
               Créer un nouveau
             </Button>

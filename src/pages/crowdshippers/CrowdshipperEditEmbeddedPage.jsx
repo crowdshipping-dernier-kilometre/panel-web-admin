@@ -1,13 +1,22 @@
 import React, { useState, useContext, useEffect } from "react";
 import { TextField, Button } from "@mui/material";
 import Header from "../../components/common/Header";
-import { Add, Block, Delete, Edit, LockOpen, Save } from "@mui/icons-material";
+import {
+  Add,
+  Block,
+  Cancel,
+  Delete,
+  Edit,
+  LockOpen,
+  Save,
+} from "@mui/icons-material";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 import { dispatchToast, handleFormatDateTime } from "../../utils/helper";
 import { ToastContainer, toast } from "react-toastify";
 import { AppContext } from "../../services/context/AppContext";
 import { TIMEOUT_REFRESH } from "../../utils/constants";
+import { set } from "date-fns";
 
 const CrowdshipperEditEmbeddedPage = () => {
   const { crowdshipperId } = useParams();
@@ -21,6 +30,7 @@ const CrowdshipperEditEmbeddedPage = () => {
     firstName: "",
     name: "",
     email: "",
+    volumeMax: "",
     createdAt: "",
   };
 
@@ -43,94 +53,8 @@ const CrowdshipperEditEmbeddedPage = () => {
     setIsModified(false);
   };
 
-  // Fonction pour la suppression du user (exemple simple)
-  const handleDelete = async () => {
-    setIsLoading(true);
-    const response = await userService.deleteUserById(crowdshipperId);
-    setIsLoading(false);
-    if (response.error) {
-      console.error(response.message);
-      dispatchToast("error", response.message);
-      return;
-    }
-    //handleReset();
-    console.log("Suppression de l'utilisateur");
-    dispatchToast("success", "Utilisateur supprimé");
-    setTimeout(() => {
-      navigate("/utilisateurs");
-    }, TIMEOUT_REFRESH);
-  };
-
-  const handleBan = async () => {
-    setIsLoading(true);
-    const response = await userService.banUserById(crowdshipperId);
-    setIsLoading(false);
-    if (response.error) {
-      console.error(response.message);
-      dispatchToast("error", response.message);
-      return;
-    }
-    dispatchToast("success", "Utilisateur banni");
-    setTimeout(() => {
-      window.location.reload();
-    }, TIMEOUT_REFRESH);
-  };
-
-  const handleUnban = async () => {
-    setIsLoading(true);
-    const response = await userService.unbanUserById(crowdshipperId);
-    setIsLoading(false);
-    if (response.error) {
-      console.error(response.message);
-      dispatchToast("error", response.message);
-      return;
-    }
-    dispatchToast("success", "Utilisateur debanni");
-    setTimeout(() => {
-      window.location.reload();
-    }, TIMEOUT_REFRESH);
-  };
-
-  const getUserById = async () => {
-    const response = await userService.getUserById(crowdshipperId);
-    if (response.error) {
-      console.error(response.message);
-      dispatchToast("error", response.message);
-      return;
-    }
-    const user = response.data;
-    setValues({
-      id: user.id,
-      pseudo: user.pseudo,
-      firstName: user.firstName,
-      name: user.name,
-      email: user.email,
-      role: user.role,
-      nbPostDeleted: user.nbPostDeleted,
-      banDate: user?.banDate
-        ? handleFormatDateTime(new Date(user.banDate))
-        : "",
-    });
-  };
-
-  const handleResetPassword = async () => {
-    const code = Math.floor(10000 + Math.random() * 90000);
-    setIsLoading(true);
-    const response = await userService.authorizeResetPassword(
-      values.email,
-      code
-    );
-    setIsLoading(false);
-    if (response.error) {
-      console.error(response.message);
-      dispatchToast("error", response.message);
-      return;
-    }
-    dispatchToast("success", `Code ${code} à envoyer à l'utilisateur`);
-  };
-
   useEffect(() => {
-    getUserById();
+    // getUserById();
   }, []);
 
   return (
@@ -180,7 +104,7 @@ const CrowdshipperEditEmbeddedPage = () => {
             fullWidth
             name="idForSimulation"
             value={values.idForSimulation}
-            disabled
+            onChange={handleChange}
           />
           <TextField
             label="Prénom"
@@ -189,7 +113,6 @@ const CrowdshipperEditEmbeddedPage = () => {
             name="firstName"
             value={values.firstName}
             onChange={handleChange}
-            disabled
           />
           <TextField
             label="Nom"
@@ -198,7 +121,6 @@ const CrowdshipperEditEmbeddedPage = () => {
             name="name"
             value={values.name}
             onChange={handleChange}
-            disabled
           />
           <TextField
             label="Email"
@@ -207,7 +129,6 @@ const CrowdshipperEditEmbeddedPage = () => {
             name="email"
             value={values.email}
             onChange={handleChange}
-            disabled
           />
           <TextField
             label="Volume max (m3)"
@@ -215,7 +136,6 @@ const CrowdshipperEditEmbeddedPage = () => {
             fullWidth
             name="volumeMax"
             value={values.volumeMax}
-            disabled
           />
           <TextField
             label="Créé le"
@@ -234,10 +154,39 @@ const CrowdshipperEditEmbeddedPage = () => {
             <CircularProgress />
           ) : (
             <>
+              {isModified && isEditing && (
+                <>
+                  <Button
+                    variant="outlined"
+                    onClick={handleReset}
+                    color="error"
+                    startIcon={<Cancel />}
+                  >
+                    Annuler
+                  </Button>
+                  <Button
+                    variant="outlined"
+                    onClick={() => {
+                      setIsEditing(false);
+                      setIsModified(false);
+                      toast.success("Modifications enregistrées");
+                    }}
+                    startIcon={<Save />}
+                  >
+                    Enregistrer
+                  </Button>
+                </>
+              )}
+
               {/* Bouton Supprimer */}
               <Button
                 variant="outlined"
-                onClick={handleDelete}
+                onClick={() => {
+                  toast.success("Crowdshipper supprimé");
+                  setTimeout(() => {
+                    navigate("/crowdshippers");
+                  }, TIMEOUT_REFRESH);
+                }}
                 color="error"
                 startIcon={<Delete />}
               >

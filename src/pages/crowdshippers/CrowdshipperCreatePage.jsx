@@ -1,29 +1,27 @@
 import React, { useState, useContext, useEffect } from "react";
-import { TextField, Button, Checkbox } from "@mui/material";
+import { TextField, Button } from "@mui/material";
 import Header from "../../components/common/Header";
-import { Add, Delete, Edit, LockOpen, Save } from "@mui/icons-material";
+import { Add, Block, Delete, Edit, LockOpen, Save } from "@mui/icons-material";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 import { dispatchToast, handleFormatDateTime } from "../../utils/helper";
 import { ToastContainer, toast } from "react-toastify";
 import { AppContext } from "../../services/context/AppContext";
 import { TIMEOUT_REFRESH } from "../../utils/constants";
+import { set } from "date-fns";
 
-const TruckEditEmbeddedPage = () => {
-  const { truckId } = useParams();
+const CrowdshipperCreatePage = () => {
+  const { crowdshipperId } = useParams();
   const navigate = useNavigate();
 
-  const { truckService } = useContext(AppContext);
+  const { userService } = useContext(AppContext);
   // Default values
   const defaultValues = {
     idForSimulation: "",
-    distanceMax: 0,
-    volumeMax: 0,
-    createdAt: "15-06-2022",
-    // event: false,
-    // // imageFile: null, // Fichier brut
-    // image: null, // URL pour le preview or fichier brut
-    // publicationDate: "",
+    firstName: "",
+    name: "",
+    volumeMax: "",
+    email: "",
   };
 
   // States
@@ -49,11 +47,11 @@ const TruckEditEmbeddedPage = () => {
 
   return (
     <div className="flex-1 overflow-auto relative z-10">
-      <Header title={`Camions / ${truckId}`} />
+      <Header title={`Nouveau Crowdshipper`} />
 
       <main className="max-w-4xl mx-auto py-6 px-4 lg:px-8">
         <div className="flex justify-end mb-4 space-x-4">
-          {!isLoading && (
+          {/* {!isLoading && (
             <>
               <Button
                 variant="text"
@@ -62,8 +60,7 @@ const TruckEditEmbeddedPage = () => {
               >
                 Modifier
               </Button>
-
-              <Link to="/nouveau-camion">
+              <Link to="/nouveau-crowdshipper">
                 <Button
                   variant="text"
                   startIcon={<Add />}
@@ -72,7 +69,7 @@ const TruckEditEmbeddedPage = () => {
                 </Button>
               </Link>
             </>
-          )}
+          )} */}
         </div>
         <div
           className="grid grid-cols-1 gap-4 p-8"
@@ -85,34 +82,41 @@ const TruckEditEmbeddedPage = () => {
             label="ID pour la simulation"
             variant="outlined"
             fullWidth
-            name="id"
+            name="idForSimulation"
             value={values.idForSimulation}
-            disabled
-          />
-          <TextField
-            label="Distance max (en km)"
-            variant="outlined"
-            fullWidth
-            name="distanceMax"
-            value={values.distanceMax}
             onChange={handleChange}
           />
           <TextField
-            label="Volume max (en m3)"
+            label="Prénom"
+            variant="outlined"
+            fullWidth
+            name="firstName"
+            value={values.firstName}
+            onChange={handleChange}
+          />
+          <TextField
+            label="Nom"
+            variant="outlined"
+            fullWidth
+            name="name"
+            value={values.name}
+            onChange={handleChange}
+          />
+          <TextField
+            label="Email"
+            variant="outlined"
+            fullWidth
+            name="email"
+            value={values.email}
+            onChange={handleChange}
+          />
+          <TextField
+            label="Volume max (m3)"
             variant="outlined"
             fullWidth
             name="volumeMax"
             value={values.volumeMax}
             onChange={handleChange}
-          />
-
-          <TextField
-            label="Publiée le"
-            variant="outlined"
-            fullWidth
-            name="createdAt"
-            value={values.createdAt}
-            disabled
           />
         </div>
 
@@ -123,51 +127,21 @@ const TruckEditEmbeddedPage = () => {
             <CircularProgress />
           ) : (
             <>
-              {isModified && isEditing && (
-                <Button
-                  variant="outlined"
-                  onClick={() => {
-                    setIsEditing(false);
-                    setIsModified(false);
-                    setTimeout(() => {
-                      toast.success("Camion modifié avec succès");
-                    }, TIMEOUT_REFRESH);
-                  }}
-                  color="success"
-                  startIcon={<Save />}
-                >
-                  Enregistrer
-                </Button>
-              )}
-
-              {/* Bouton Annuler */}
-              {isEditing && isModified && (
-                <Button
-                  variant="outlined"
-                  onClick={() => {
-                    setIsEditing(false);
-                    setIsModified(false);
-                  }}
-                  color="error"
-                  startIcon={<LockOpen />}
-                >
-                  Annuler
-                </Button>
-              )}
-
-              {/* Bouton Supprimer */}
               <Button
-                variant="outlined"
+                variant="contained"
+                disabled={
+                  !values.firstName ||
+                  !values.name ||
+                  !values.email ||
+                  !values.volumeMax
+                }
+                startIcon={<Add />}
                 onClick={() => {
-                  toast.success("Camion supprimé avec succès");
-                  setTimeout(() => {
-                    navigate("/camions");
-                  }, TIMEOUT_REFRESH);
+                  toast.success("Crowdshipper créé avec succès");
+                  handleReset();
                 }}
-                color="error"
-                startIcon={<Delete />}
               >
-                Supprimer
+                Créer
               </Button>
             </>
           )}
@@ -177,4 +151,4 @@ const TruckEditEmbeddedPage = () => {
   );
 };
 
-export default TruckEditEmbeddedPage;
+export default CrowdshipperCreatePage;

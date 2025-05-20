@@ -16,20 +16,6 @@ const TruckCreatePage = () => {
     idForSimulation: "",
     volumeMax: 0,
     distanceMax: 0,
-    // imageFile: null, // Fichier brut
-    // image: null, // URL pour le preview
-    // imageByteArray: null,
-    // imageBase64: null,
-  };
-
-  // Function to convert a file to base64
-  const fileToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
   };
 
   // States
@@ -45,47 +31,6 @@ const TruckCreatePage = () => {
   // Fonction pour réinitialiser les changements
   const handleReset = () => {
     setValues(defaultValues);
-  };
-
-  const handleCreate = async () => {
-    setIsLoading(true);
-    const response = await truckService.createTruck({
-      title: values.title,
-      description: values.description,
-      event: values.event,
-      image: values.imageBase64,
-    });
-    setIsLoading(false);
-    if (response.error) {
-      console.error(response.message);
-      dispatchToast("error", response.message);
-      return;
-    }
-    dispatchToast("success", "Actualité créée");
-    handleReset();
-  };
-
-  const handleChangeImage = async (event) => {
-    const file = event.target.files[0]; // Récupère le fichier
-    // Lire le fichier sous forme de tableau binaire
-    const arrayBuffer = await file.arrayBuffer();
-    const byteArray = new Uint8Array(arrayBuffer); // Conversion en tableau d'octets
-
-    //const base64 = fileToBase64(file);
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        // Génère une URL temporaire
-        setValues({
-          ...values,
-          image: reader.result, // URL pour le preview
-          imageFile: file, // Fichier brut
-          imageByteArray: byteArray,
-          imageBase64: reader.result.split(",")[1], // Conversion en base64
-        });
-      };
-      reader.readAsDataURL(file); // Convertit le fichier en Data URL
-    }
   };
 
   return (
@@ -121,57 +66,11 @@ const TruckCreatePage = () => {
             label="Volume max (en m3)"
             variant="outlined"
             fullWidth
-            name="distanceMax"
-            value={values.distanceMax}
+            name="volumeMax"
+            value={values.volumeMax}
             multiline
             onChange={handleChange}
           />
-          {/* <div className="flex items-center justify-start mb-6">
-            <Checkbox
-              color="primary"
-              name="event"
-              checked={values.event}
-              onChange={(e) =>
-                setValues({ ...values, event: e.target.checked })
-              }
-            />
-            <p className="text-white-600">C'est un evenement ?</p>
-          </div> */}
-          {/* {values.image && (
-            <div className="flex items-center mb-4">
-              <img
-                src={values.image}
-                alt={values.imageFile?.name}
-                className="w-48 h-48 object-fit mr-4"
-              />
-              <div>
-                <p className="text-white-600">{values.imageFile?.name}</p>
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  startIcon={<Delete />}
-                  onClick={() =>
-                    setValues({ ...values, image: null, imageFile: null })
-                  }
-                >
-                  Supprimer
-                </Button>
-              </div>
-            </div>
-          )} */}
-
-          {/* <Button
-            variant="outlined"
-            component="label"
-          >
-            Ajouter une image
-            <input
-              type="file"
-              hidden
-              onChange={handleChangeImage}
-              accept="image/*"
-            />
-          </Button> */}
         </div>
 
         <ToastContainer />
@@ -182,9 +81,16 @@ const TruckCreatePage = () => {
           ) : (
             <Button
               variant="contained"
-              disabled={!values.title || !values.description}
+              disabled={
+                !values.idForSimulation ||
+                !values.distanceMax ||
+                !values.volumeMax
+              }
               startIcon={<Add />}
-              onClick={handleCreate}
+              onClick={() => {
+                toast.success("Camion créé avec succès");
+                handleReset();
+              }}
             >
               Créer
             </Button>

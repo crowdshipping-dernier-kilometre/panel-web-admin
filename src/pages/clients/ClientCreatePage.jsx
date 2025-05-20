@@ -14,11 +14,10 @@ const ClientCreatePage = () => {
 
   // Default values
   const defaultValues = {
-    name: "",
-    description: "",
-    isPublic: true,
-    adminToken: "",
-    categoryId: "",
+    firstName: "",
+    lastName: "",
+    email: "",
+    address: "",
   };
 
   // States
@@ -39,47 +38,9 @@ const ClientCreatePage = () => {
     setValues(defaultValues);
   };
 
-  const handleCreate = async () => {
-    setIsLoading(true);
-    const response = await clientService.createClient({
-      nom: values.name,
-      description: values.description,
-      isPublic: values.isPublic,
-      categoryId: values.categoryId,
-      adminToken: Cookies.get("token"),
-    });
-    setIsLoading(false);
-    if (response.error) {
-      console.error(response.message);
-      dispatchToast("error", response.message);
-      return;
-    }
-    dispatchToast("success", "Communauté créée");
-    handleReset();
-  };
-
-  // get all users
-  const getCategories = async () => {
-    const response = await categoryService.getAllCategories();
-    if (response.error) {
-      toast.error(response.message);
-      console.error(response.message);
-      return;
-    }
-    const data = response.data;
-    // console.log(data);
-    const categoriesData = data.map((category) => {
-      return {
-        label: `${category.name} [${category.id}]`,
-        value: category.id,
-      };
-    });
-    // setCategories(categoriesData);
-  };
-
   return (
     <div className="flex-1 overflow-auto relative z-10">
-      <Header title={`Nouvelle Communauté`} />
+      <Header title={`Nouveau client`} />
 
       <main className="max-w-4xl mx-auto py-6 px-4 lg:px-8">
         <div
@@ -90,84 +51,37 @@ const ClientCreatePage = () => {
           }}
         >
           <TextField
+            label="Prénom"
+            variant="outlined"
+            fullWidth
+            name="firstName"
+            value={values.firstName}
+            onChange={handleChange}
+          />
+          <TextField
             label="Nom"
             variant="outlined"
             fullWidth
-            name="name"
-            value={values.name}
+            name="lastName"
+            value={values.lastName}
             onChange={handleChange}
           />
           <TextField
-            label="Description"
+            label="Email"
             variant="outlined"
             fullWidth
-            name="description"
-            value={values.description}
-            multiline
+            name="email"
+            value={values.email}
             onChange={handleChange}
           />
-          <div className="flex items-center justify-start mb-6">
-            <Checkbox
-              color="primary"
-              name="event"
-              checked={values.isPublic}
-              onChange={(e) =>
-                setValues({ ...values, isPublic: e.target.checked })
-              }
-              disabled
-            />
-            <p className="text-white-600">C'est une communauté public ?</p>
-          </div>
-
-          <Autocomplete
-            disablePortal
-            options={categories ?? []}
-            // disabled
-            fullWidth
-            onChange={(event, newValue) => {
-              //console.log(newValue?.value);
-              setValues({ ...values, categoryId: Number(newValue?.value) });
-            }}
-            // value={
-            //   values.categoryId
-            //     ? categories.find(
-            //         (category) => category.value === values.categoryId
-            //       )
-            //     : null
-            // }
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                label="Categorie"
-              />
-            )}
-          />
-
-          <div className="text-sm font-semibold text-gray-100">
-            NB: Si la catégorie n'existe pas, vous pouvez la créer.
-          </div>
-
           <TextField
-            label="Nom de la nouvelle catégorie"
+            label="Adresse"
             variant="outlined"
             fullWidth
-            name="name"
-            // disabled
-            value={categoryCreationNameField}
-            onChange={(e) => setCategoryCreationNameField(e.target.value)}
+            name="address"
+            value={values.address}
+            onChange={handleChange}
           />
-          {isLoading ? (
-            <CircularProgress />
-          ) : (
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => handleCreateCategory()}
-              disabled={!categoryCreationNameField}
-            >
-              Créer une nouvelle catégorie
-            </Button>
-          )}
         </div>
 
         <ToastContainer />
@@ -178,9 +92,17 @@ const ClientCreatePage = () => {
           ) : (
             <Button
               variant="contained"
-              disabled={!values.name || !values.description}
+              disabled={
+                !values.firstName ||
+                !values.lastName ||
+                !values.email ||
+                !values.address
+              }
               startIcon={<Add />}
-              onClick={handleCreate}
+              onClick={() => {
+                toast.success("Client créé avec succès");
+                handleReset();
+              }}
             >
               Créer
             </Button>

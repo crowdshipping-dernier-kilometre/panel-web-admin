@@ -111,8 +111,8 @@ const rows = [
 ];
 
 const RelayPointsTable = () => {
-  const [relayPointsData, setRelayPointsData] = useState([]); // to uncomment during the integration
-  // const [relayPointsData, setRelayPointsData] = useState(rows); //to comment during the integration
+  // const [relayPointsData, setRelayPointsData] = useState([]); // to uncomment during the integration
+  const [relayPointsData, setRelayPointsData] = useState(rows); //to comment during the integration
 
   const { relayPointService } = useContext(AppContext);
 
@@ -130,7 +130,7 @@ const RelayPointsTable = () => {
   };
 
   useEffect(() => {
-    getAllRelayPoints();
+    // getAllRelayPoints();
   }, []);
 
   return (

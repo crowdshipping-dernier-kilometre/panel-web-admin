@@ -37,6 +37,8 @@ import TruckCreatePage from "./pages/trucks/TruckCreatePage";
 import DeliveryEditEmbeddedPage from "./pages/delivery/DeliveryEditEmbeddedPage";
 import DeliveryCreatePage from "./pages/delivery/DeliveryCreatePage";
 import CrowdshipperEditEmbeddedPage from "./pages/crowdshippers/CrowdshipperEditEmbeddedPage";
+import RelayPointCreatePage from "./pages/relay-point/RelayPointCreatePage";
+import CrowdshipperCreatePage from "./pages/crowdshippers/CrowdshipperCreatePage";
 
 function App() {
   const darkTheme = createTheme({
@@ -120,7 +122,7 @@ function App() {
               />
               <Route
                 path="/nouveau-crowdshipper"
-                element={<UserEditEmbeddedPage />}
+                element={<CrowdshipperCreatePage />}
               />
               <Route
                 path="/clients"
@@ -144,7 +146,7 @@ function App() {
               />
               <Route
                 path="/nouveau-point-relais"
-                element={<PostEditEmbeddedPage />}
+                element={<RelayPointCreatePage />}
               />
               <Route
                 path="/livraisons"

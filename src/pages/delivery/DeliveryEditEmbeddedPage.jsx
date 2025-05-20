@@ -98,7 +98,7 @@ const DeliveryEditEmbeddedPage = () => {
   };
 
   useEffect(() => {
-    getTagById();
+    // getTagById();
   }, []);
 
   return (
@@ -201,21 +201,31 @@ const DeliveryEditEmbeddedPage = () => {
               {isModified && isEditing && (
                 <Button
                   variant="outlined"
-                  onClick={handleUpdate}
+                  // onClick={handleUpdate}
+                  onClick={() => {
+                    toast.success("Modifications enregistrées");
+                    setIsModified(false);
+                  }}
                   startIcon={<Save />}
                 >
                   Enregistrer
                 </Button>
               )}
 
-              {/* <Button
+              <Button
                 variant="outlined"
-                onClick={handleDelete}
+                onClick={() => {
+                  toast.success("Livraison supprimé");
+                  setIsModified(false);
+                  setTimeout(() => {
+                    navigate("/livraisons");
+                  }, TIMEOUT_REFRESH);
+                }}
                 color="error"
                 startIcon={<Delete />}
               >
                 Supprimer
-              </Button> */}
+              </Button>
             </>
           )}
         </div>

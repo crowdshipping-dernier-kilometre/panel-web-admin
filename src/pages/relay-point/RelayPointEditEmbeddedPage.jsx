@@ -12,15 +12,9 @@ import {
 } from "@mui/icons-material";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
-import {
-  dispatchToast,
-  handleFormatBoolean,
-  handleFormatDateTime,
-} from "../../utils/helper";
 import { ToastContainer, toast } from "react-toastify";
 import { AppContext } from "../../services/context/AppContext";
 import { TIMEOUT_REFRESH } from "../../utils/constants";
-import { Eye, EyeOff } from "lucide-react";
 
 const RelayPointEditEmbeddedPage = () => {
   const { relayPointId } = useParams();
@@ -31,12 +25,11 @@ const RelayPointEditEmbeddedPage = () => {
   // Default values
   const defaultValues = {
     id: "",
-    content: "",
-    username: "",
-    datePost: "",
-    nbLike: 0,
-    visible: false,
-    image: "",
+    name: "",
+    nbOpenHours: "",
+    volumeMax: "",
+    price: "",
+    adress: "",
   };
 
   // States
@@ -59,87 +52,35 @@ const RelayPointEditEmbeddedPage = () => {
   };
 
   // Fonction pour la suppression du post (exemple simple)
-  const handleDelete = async () => {
-    setIsLoading(true);
-    const response = await relayPointService.deleteRelayPoint(relayPointId);
-    setIsLoading(false);
-    if (response.error) {
-      console.error(response.message);
-      dispatchToast("error", response.message);
-      return;
-    }
-    handleReset();
-    console.log("Suppression du point relais");
-    dispatchToast("success", "Point relais supprimé");
-    setTimeout(() => {
-      navigate("/points-relais");
-    }, TIMEOUT_REFRESH);
-  };
-
-  const getRelayPointById = async () => {
-    const response = await relayPointService.getRelayPointById(relayPointId);
-    if (response.error) {
-      console.error(response.message);
-      dispatchToast("error", response.message);
-      return;
-    }
-    const post = response.data;
-    setValues({
-      id: post.id,
-      content: post.content,
-      username: post.username,
-      datePost: handleFormatDateTime(new Date(post.datePost)),
-      nbLike: post.nbLike ?? 0,
-      visible: post.visible,
-      image: post.image,
-    });
-  };
-
-  // const makeVisiblePost = async () => {
-  //   setIsLoading(true);
-  //   const response = await relayPointService.makeVisiblePost(relayPointId);
-  //   setIsLoading(false);
-  //   if (response.error) {
-  //     console.error(response.message);
-  //     dispatchToast("error", response.message);
-  //     return;
-  //   }
-  //   dispatchToast("success", "Post est maintenant visible");
-  // };
-
-  // const makeInvisiblePost = async () => {
-  //   setIsLoading(true);
-  //   const response = await relayPointService.makeInvisiblePost(relayPointId);
-  //   setIsLoading(false);
-  //   if (response.error) {
-  //     console.error(response.message);
-  //     dispatchToast("error", response.message);
-  //     return;
-  //   }
-  //   dispatchToast("success", "Post maintenant invisible");
-  //   getRelayPointById();
-  // };
+  const getRelayPointById = async () => {};
 
   useEffect(() => {
-    getRelayPointById();
+    // getRelayPointById();
   }, []);
 
   return (
     <div className="flex-1 overflow-auto relative z-10">
-      <Header title={`Posts / ${relayPointId}`} />
+      <Header title={`Point relais / ${relayPointId}`} />
 
       <main className="max-w-4xl mx-auto py-6 px-4 lg:px-8">
         <div className="flex justify-end mb-4 space-x-4">
           {!isLoading && (
             <>
-              {/* <Link to="/nouveau-utilisateur">
+              <Button
+                variant="text"
+                startIcon={<Edit />}
+                onClick={() => setIsEditing(!isEditing)}
+              >
+                Modifier
+              </Button>
+              <Link to="/nouveau-point-relais">
                 <Button
                   variant="text"
                   startIcon={<Add />}
                 >
                   Créer un nouveau
                 </Button>
-              </Link> */}
+              </Link>
             </>
           )}
         </div>
@@ -150,18 +91,6 @@ const RelayPointEditEmbeddedPage = () => {
             borderRadius: "16px",
           }}
         >
-          {values.image && (
-            <div className="flex items-center justify-center mb-6">
-              {/* preview image base64 */}
-
-              <img
-                src={`data:image/png;base64,${values.image}`}
-                alt={values.title}
-                className="w-full h-full object-cover"
-                style={{ borderRadius: "16px" }}
-              />
-            </div>
-          )}
           <TextField
             label="ID"
             variant="outlined"
@@ -171,50 +100,45 @@ const RelayPointEditEmbeddedPage = () => {
             disabled
           />
           <TextField
-            label="Contenu"
+            label="Nom"
             multiline
             variant="outlined"
             fullWidth
-            name="content"
-            value={values.content}
+            name="name"
+            value={values.name}
             onChange={handleChange}
-            disabled
           />
           <TextField
-            label="Username"
+            label="Nombre d'heures d'ouverture"
             variant="outlined"
             fullWidth
-            name="creatorId"
-            value={values.username}
+            name="nbOpenHours"
+            value={values.nbOpenHours}
             onChange={handleChange}
-            disabled
           />
           <TextField
-            label="Nombre de likes"
+            label="Volume maximum"
             variant="outlined"
             fullWidth
-            name="nbLike"
-            value={values.nbLike}
+            name="volumeMax"
+            value={values.volumeMax}
             onChange={handleChange}
-            disabled
           />
           <TextField
-            label="Date de publication"
+            label="Prix"
             variant="outlined"
             fullWidth
-            name="datePost"
-            value={values.datePost}
+            name="price"
+            value={values.price}
             onChange={handleChange}
-            disabled
           />
           <TextField
-            label="Visibilité du post"
+            label="Adresse"
             variant="outlined"
             fullWidth
-            name="visible"
-            value={handleFormatBoolean(values.visible)}
+            name="adress"
+            value={values.adress}
             onChange={handleChange}
-            disabled
           />
         </div>
 
@@ -225,25 +149,42 @@ const RelayPointEditEmbeddedPage = () => {
             <CircularProgress />
           ) : (
             <>
+              {isModified && isEditing && (
+                <Button
+                  variant="outlined"
+                  onClick={handleReset}
+                  startIcon={<Block />}
+                >
+                  Annuler
+                </Button>
+              )}
+              {isModified && isEditing && (
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    setIsEditing(false);
+                    setIsModified(false);
+                    toast.success("Modifications enregistrées");
+                  }}
+                  startIcon={<Save />}
+                >
+                  Enregistrer
+                </Button>
+              )}
               {/* Bouton Supprimer */}
-              {/* <Button
+              <Button
                 variant="outlined"
-                onClick={handleDelete}
+                onClick={() => {
+                  toast.success("Point relais supprimé");
+                  setTimeout(() => {
+                    navigate("/points-relais");
+                  }, TIMEOUT_REFRESH);
+                }}
                 color="error"
                 startIcon={<Delete />}
               >
                 Supprimer
-              </Button> */}
-
-              {values.visible && (
-                <Button
-                  variant="outlined"
-                  onClick={makeInvisiblePost}
-                  startIcon={<EyeOff />}
-                >
-                  Rendre invisible
-                </Button>
-              )}
+              </Button>
             </>
           )}
         </div>

@@ -107,9 +107,17 @@ const DeliveryCreatePage = () => {
           ) : (
             <Button
               variant="contained"
-              disabled={!values.name || !values.description}
+              disabled={
+                !values.idForSimulation ||
+                !values.crowdshipperId ||
+                !values.clientId ||
+                !values.packageId
+              }
               startIcon={<Add />}
-              onClick={handleCreate}
+              onClick={() => {
+                toast.success("Livraison créée avec succès");
+                handleReset();
+              }}
             >
               Créer
             </Button>
