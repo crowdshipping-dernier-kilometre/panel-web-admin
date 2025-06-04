@@ -28,7 +28,7 @@ jobs:
         docker build . --file Dockerfile --tag $IMAGE_NAME:latest
         docker tag $IMAGE_NAME:latest $IMAGE_NAME:$COMMIT_MESSAGE
         
-    - name: Push the Docker imageAdd commentMore actions
+    - name: Push the Docker imageAdd comment
       run: |
         COMMIT_MESSAGE=$(git log -1 --pretty=%s)Add commentMore actions
         COMMIT_MESSAGE=$(echo "$COMMIT_MESSAGE" | tr -d '[:space:]' | tr '[:upper:]' '[:lower:]' | tr -cd '[:alnum:]-_')
