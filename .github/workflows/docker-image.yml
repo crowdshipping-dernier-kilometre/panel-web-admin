@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:More actions
+  build:
     runs-on: ubuntu-latest
 
     steps:
